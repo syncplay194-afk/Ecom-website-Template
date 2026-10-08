@@ -13,7 +13,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const checkAuth = async () => {
       try {
         const { data } = await insforge.auth.getCurrentUser();
-        const isAuthenticated = !!data?.user;
+        const isAuthenticated = !!data;
 
         if (!isAuthenticated && pathname !== "/admin/login") {
           router.replace("/admin/login");
