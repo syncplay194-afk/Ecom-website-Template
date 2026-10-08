@@ -1,0 +1,448 @@
+"use client";
+
+import React, { useState, useEffect, Suspense } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { useApp } from "@/context/AppContext";
+import { Product } from "@/context/AppContext";
+import { insforge } from "@/lib/insforge";
+
+function ShopContent() {
+  const { t, addToCart, language } = useApp();
+  const searchParams = useSearchParams();
+  const catParam = searchParams.get("cat") || "all";
+
+  // Filter States
+  const [allProducts, setAllProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [maxPrice, setMaxPrice] = useState<number>(5000);
+  const [selectedCategories, setSelectedCategories] = useState({
+    all: true,
+    makeup: false,
+    juwelary: false,
+    cosmetics: false,
+    bag: false,
+  });
+  const [sortBy, setSortBy] = useState<string>("popular");
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await insforge.database.from("Products").select().eq("is_active", true);
+      if (data) {
+        const mapped = data.map((p: any) => ({
+          id: p.id,
+          slug: p.id,
+          nameBn: p.name_bn || p.name_en,
+          nameEn: p.name_en,
+          price: p.price,
+          image: p.image_url || "https://placehold.co/400x400?text=No+Image",
+          unitBn: p.unit || "১ টি",
+          unitEn: p.unit || "1 Pc",
+          category: p.category || "grocery",
+          descriptionBn: p.description_bn || p.description_en,
+          descriptionEn: p.description_en,
+          discountPrice: p.discount_price || undefined,
+          discountPercent: p.discount_percent || undefined,
+        }));
+        setAllProducts(mapped);
+      }
+      setLoading(false);
+    };
+    fetchProducts();
+  }, []);
+
+  // Sync with URL query parameter on mount / change
+  useEffect(() => {
+    if (catParam && catParam !== "all") {
+      setSelectedCategories({
+        all: false,
+        makeup: catParam === "makeup",
+        juwelary: catParam === "juwelary",
+        cosmetics: catParam === "cosmetics",
+        bag: catParam === "bag",
+      });
+    } else {
+      setSelectedCategories({
+        all: true,
+        makeup: false,
+        juwelary: false,
+        cosmetics: false,
+        bag: false,
+      });
+    }
+  }, [catParam]);
+
+  const handleCategoryCheckboxChange = (cat: keyof typeof selectedCategories) => {
+    setSelectedCategories((prev) => {
+      // Calculate how many checkboxes are currently checked
+      const checkedCount = Object.values(prev).filter(Boolean).length;
+
+      // If user tries to uncheck the last checked box, do not allow it
+      if (prev[cat] && checkedCount === 1) {
+        return prev;
+      }
+
+      const next = { ...prev };
+
+      if (cat === "all") {
+        if (!prev.all) {
+          return {
+            all: true,
+            makeup: false,
+            juwelary: false,
+            cosmetics: false,
+            bag: false,
+          };
+        } else {
+          // Prevent unchecking "all" if it's the only one checked
+          return prev;
+        }
+      } else {
+        // Toggling a specific category
+        const newValue = !prev[cat];
+        next[cat] = newValue;
+
+        if (newValue) {
+          // If checking a specific category, de-select "all"
+          next.all = false;
+        } else {
+          // If unchecking a specific category, verify at least one is still checked
+          const anyChecked = Object.entries(next)
+            .filter(([k, _]) => k !== "all")
+            .some(([_, v]) => v);
+          if (!anyChecked) {
+            // If nothing else is checked, automatically check "all"
+            next.all = true;
+          }
+        }
+      }
+
+      return next;
+    });
+  };
+
+  const handleSeeAll = (filterKeys: string[]) => {
+    setSelectedCategories(() => {
+      return {
+        all: false,
+        makeup: filterKeys.includes("makeup"),
+        juwelary: filterKeys.includes("juwelary"),
+        cosmetics: filterKeys.includes("cosmetics"),
+        bag: filterKeys.includes("bag"),
+      };
+    });
+  };
+
+  // Filter & Sort Logic
+  const filteredProducts = allProducts.filter((product) => {
+    // Price check
+    const activePrice = product.discountPrice !== undefined ? product.discountPrice : (product.price || 0);
+    if (activePrice > maxPrice) return false;
+
+    // Category check
+    if (selectedCategories.all) return true;
+
+    const isCategoryChecked = selectedCategories[product.category as keyof typeof selectedCategories];
+    return isCategoryChecked;
+  });
+
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    const aPrice = a.discountPrice !== undefined ? a.discountPrice : a.price;
+    const bPrice = b.discountPrice !== undefined ? b.discountPrice : b.price;
+
+    if (sortBy === "price-low") {
+      return aPrice - bPrice;
+    }
+    if (sortBy === "price-high") {
+      return bPrice - aPrice;
+    }
+    if (sortBy === "newest") {
+      const aNew = a.isNew ? 1 : 0;
+      const bNew = b.isNew ? 1 : 0;
+      return bNew - aNew;
+    }
+    // "popular" / default
+    return parseInt(a.id) - parseInt(b.id);
+  });
+
+  const groupedProducts: Record<
+    string,
+    { titleBn: string; titleEn: string; items: Product[]; filterKeys: string[] }
+  > = {
+    makeup: { titleBn: "মেকআপ", titleEn: "Makeup", items: [], filterKeys: ["makeup"] },
+    juwelary: { titleBn: "গহনা", titleEn: "Juwelary", items: [], filterKeys: ["juwelary"] },
+    cosmetics: { titleBn: "প্রসাধন", titleEn: "cosmetics", items: [], filterKeys: ["cosmetics"] },
+    bag: { titleBn: "ব্যাগ", titleEn: "Bag", items: [], filterKeys: ["bag"] },
+  };
+
+  sortedProducts.forEach((product) => {
+    if (product.category === "makeup") {
+      groupedProducts.makeup.items.push(product);
+    } else if (product.category === "juwelary") {
+      groupedProducts.juwelary.items.push(product);
+    } else if (product.category === "cosmetics") {
+      groupedProducts.cosmetics.items.push(product);
+    } else if (product.category === "bag") {
+      groupedProducts.bag.items.push(product);
+    }
+  });
+
+  const activeGroups = Object.entries(groupedProducts).filter(
+    ([_, group]) => group.items.length > 0
+  );
+
+  return (
+    <div className="bg-background text-on-background min-h-screen flex flex-col">
+      {/* TopNavBar */}
+      <Header />
+
+      {/* Main Content Area */}
+      {loading ? (
+        <div className="flex-grow flex justify-center items-center font-bold text-primary py-24">
+          Loading products...
+        </div>
+      ) : (
+      <main className="flex-grow w-full max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-section-gap flex flex-col md:flex-row gap-6 mt-4 mb-16 md:mb-0">
+        {/* Sidebar Filters */}
+        <aside className="hidden md:block w-64 flex-shrink-0 bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-surface-variant/40 self-start sticky top-24">
+          <h2 className="font-headline-sm text-headline-sm text-on-background mb-4 pb-2 border-b border-surface-variant">
+            {t("ফিল্টার করুন", "Filter Products")}
+          </h2>
+
+          {/* Price Range */}
+          <div className="mb-6">
+            <h3 className="font-label-md text-label-md text-on-surface font-bold mb-3">
+              {t("মূল্য পরিসীমা", "Price Range")}
+            </h3>
+            <input
+              type="range"
+              min="0"
+              max="5000"
+              step="50"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+              className="w-full accent-primary h-2 bg-surface-container-high rounded-full appearance-none cursor-pointer"
+            />
+            <div className="flex justify-between text-body-md text-on-surface-variant mt-2 font-semibold">
+              <span>৳ ০</span>
+              <span className="text-primary">
+                ৳ {language === "bn" ? maxPrice.toLocaleString("bn-BD") : maxPrice}
+              </span>
+              <span>৳ ৫,০০০</span>
+            </div>
+          </div>
+
+          {/* Categories */}
+          <div className="mb-6">
+            <h3 className="font-label-md text-label-md text-on-surface font-bold mb-3">
+              {t("ক্যাটাগরি", "Category")}
+            </h3>
+            <div className="space-y-3">
+              {/* ALL checkbox */}
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={selectedCategories.all}
+                  onChange={() => handleCategoryCheckboxChange("all")}
+                  className="form-checkbox text-primary rounded border-outline-variant focus:ring-primary w-4 h-4 cursor-pointer"
+                />
+                <span className="font-body-md text-body-md text-on-surface-variant group-hover:text-primary transition-colors font-bold">
+                  {t("সব পণ্য (All)", "All Products")}
+                </span>
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={selectedCategories.makeup}
+                  onChange={() => handleCategoryCheckboxChange("makeup")}
+                  className="form-checkbox text-primary rounded border-outline-variant focus:ring-primary w-4 h-4 cursor-pointer"
+                />
+                <span className="font-body-md text-body-md text-on-surface-variant group-hover:text-primary transition-colors">
+                  {t("মেকআপ", "Makeup")}
+                </span>
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={selectedCategories.juwelary}
+                  onChange={() => handleCategoryCheckboxChange("juwelary")}
+                  className="form-checkbox text-primary rounded border-outline-variant focus:ring-primary w-4 h-4 cursor-pointer"
+                />
+                <span className="font-body-md text-body-md text-on-surface-variant group-hover:text-primary transition-colors">
+                  {t("গহনা", "Juwelary")}
+                </span>
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={selectedCategories.cosmetics}
+                  onChange={() => handleCategoryCheckboxChange("cosmetics")}
+                  className="form-checkbox text-primary rounded border-outline-variant focus:ring-primary w-4 h-4 cursor-pointer"
+                />
+                <span className="font-body-md text-body-md text-on-surface-variant group-hover:text-primary transition-colors">
+                  {t("প্রসাধন", "cosmetics")}
+                </span>
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={selectedCategories.bag}
+                  onChange={() => handleCategoryCheckboxChange("bag")}
+                  className="form-checkbox text-primary rounded border-outline-variant focus:ring-primary w-4 h-4 cursor-pointer"
+                />
+                <span className="font-body-md text-body-md text-on-surface-variant group-hover:text-primary transition-colors">
+                  {t("ব্যাগ", "Bag")}
+                </span>
+              </label>
+            </div>
+          </div>
+        </aside>
+
+        {/* Product Grid Area */}
+        <div className="flex-grow w-full">
+          {/* Top Filter Summary Bar */}
+          <div className="flex flex-col sm:flex-row justify-between items-center bg-surface-container-lowest p-3 md:p-4 rounded-xl shadow-sm border border-surface-variant mb-6 gap-4">
+            <p className="font-body-md text-body-md text-on-surface-variant font-semibold">
+              {language === "bn"
+                ? `${filteredProducts.length.toLocaleString("bn-BD")}টি পণ্য পাওয়া গেছে`
+                : `${filteredProducts.length} products found`}
+            </p>
+
+            {/* Sorting Dropdown */}
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <label className="font-label-md text-label-md text-on-surface whitespace-nowrap" htmlFor="sort">
+                {t("সাজান:", "Sort by:")}
+              </label>
+              <select
+                id="sort"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="form-select w-full sm:w-auto font-body-md text-body-md text-on-surface bg-surface border border-outline-variant rounded-lg focus:border-primary focus:ring focus:ring-primary/20 py-1.5 pl-3 pr-8"
+              >
+                <option value="popular">{t("সবচেয়ে জনপ্রিয়", "Most Popular")}</option>
+                <option value="newest">{t("নতুন পণ্য", "Newest")}</option>
+                <option value="price-low">{t("মূল্য: কম থেকে বেশি", "Price: Low to High")}</option>
+                <option value="price-high">{t("মূল্য: বেশি থেকে কম", "Price: High to Low")}</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Grouped Product Grid Sections */}
+          <div className="space-y-10">
+            {activeGroups.length === 0 ? (
+              <div className="bg-surface-container-lowest rounded-2xl p-12 text-center border border-surface-variant/40 shadow-sm">
+                <span className="material-symbols-outlined text-[48px] text-muted mb-2">search_off</span>
+                <p className="text-on-surface-variant font-bold">
+                  {t("কোনো পণ্য খুঁজে পাওয়া যায়নি!", "No products match the selected filters.")}
+                </p>
+              </div>
+            ) : (
+              activeGroups.map(([groupKey, group]) => (
+                <section key={groupKey} className="border-b border-surface-variant/30 pb-8 last:border-0">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="font-headline-sm text-headline-sm text-on-background font-bold border-l-4 border-primary pl-3">
+                      {t(group.titleBn, group.titleEn)}
+                    </h2>
+                    {/* See All (সব দেখুন) for this section */}
+                    <button
+                      onClick={() => handleSeeAll(group.filterKeys)}
+                      className="text-primary font-label-md text-label-md hover:underline cursor-pointer btn-press font-semibold"
+                    >
+                      {t("সব দেখুন", "See All")}
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
+                    {group.items.map((product) => {
+                      const activePrice = product.discountPrice !== undefined ? product.discountPrice : (product.price || 0);
+                      const hasDiscount = product.discountPrice !== undefined;
+                      const formattedPrice = language === "bn" ? activePrice.toLocaleString("bn-BD") : activePrice;
+
+                      return (
+                        <div
+                          key={product.id}
+                          className="bg-surface-container-lowest rounded-2xl shadow-soft border border-surface-variant overflow-hidden group hover-lift flex flex-col h-full relative"
+                        >
+                          {/* Discount tag */}
+                          {hasDiscount && (
+                            <div className="absolute top-2 left-2 z-10 bg-gradient-orange text-white text-[10px] px-2 py-0.5 rounded-full font-bold">
+                              {language === "bn"
+                                ? `-${product.discountPercent?.toLocaleString("bn-BD")}%`
+                                : `-${product.discountPercent}%`}
+                            </div>
+                          )}
+
+                          {/* Image */}
+                          <Link
+                            href={`/product/${product.slug}`}
+                            className="aspect-square bg-white overflow-hidden block relative"
+                          >
+                            <img
+                              className="w-full !h-full object-cover card-zoom-image"
+                              src={product.image}
+                              alt={t(product.nameBn, product.nameEn)}
+                            />
+                          </Link>
+
+                          {/* Details */}
+                          <div className="p-3.5 flex flex-col flex-grow">
+                            <h3 className="font-label-md text-label-md text-on-surface mb-1 hover:text-primary transition-colors line-clamp-1">
+                              <Link href={`/product/${product.slug}`}>{t(product.nameBn, product.nameEn)}</Link>
+                            </h3>
+                            <p className="text-xs text-muted mb-3">{t(product.unitBn, product.unitEn)}</p>
+                            <div className="mt-auto flex justify-between items-center">
+                              <div className="flex flex-col">
+                                <span className="font-headline-sm text-headline-sm text-primary font-bold">
+                                  ৳ {formattedPrice}
+                                </span>
+                                {hasDiscount && (
+                                  <span className="text-xs text-outline-variant line-through mt-0.5">
+                                    ৳ {language === "bn" ? product.price.toLocaleString("bn-BD") : product.price}
+                                  </span>
+                                )}
+                              </div>
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  addToCart(product, 1);
+                                }}
+                                className="bg-gradient-to-br from-primary to-[#008C44] text-white w-8 h-8 rounded-full flex items-center justify-center btn-press shadow-soft hover-lift cursor-pointer"
+                                title={t("কার্টে যোগ করুন", "Add to Cart")}
+                              >
+                                <span className="material-symbols-outlined text-[16px]">add</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </section>
+              ))
+            )}
+          </div>
+        </div>
+      </main>
+      )}
+
+
+
+      {/* Footer */}
+      <Footer />
+    </div>
+  );
+}
+
+export default function ShopPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center text-primary font-bold">Loading shop catalog...</div>}>
+      <ShopContent />
+    </Suspense>
+  );
+}
