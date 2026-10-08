@@ -35,22 +35,6 @@ export default function RootLayout({
           {children}
         </AppProvider>
         
-        {/* Unregister old PWA Service Worker to fix cache crash issues */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                  for(let registration of registrations) {
-                    registration.unregister().then(function(boolean) {
-                      console.log('Old Service Worker unregistered to prevent fetch crashes');
-                    });
-                  }
-                });
-              }
-            `,
-          }}
-        />
       </body>
     </html>
   );

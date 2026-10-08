@@ -2,13 +2,13 @@ import { MetadataRoute } from 'next'
  
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Smart Supper Shop',
-    short_name: 'GSS',
-    description: 'Fresh e-commerce grocery online shop in Bangladesh',
+    name: 'Ecom Shop',
+    short_name: 'Ecom',
+    description: 'Premium e-commerce online shop',
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',
-    theme_color: '#3b82f6',
+    theme_color: '#ff6600',
     icons: [
       {
         src: '/icon.png',
