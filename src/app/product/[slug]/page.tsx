@@ -7,6 +7,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useApp, PackSize } from "@/context/AppContext";
 import { insforge } from "@/lib/insforge";
+import { ArrowLeft, Minus, Plus, ShoppingCart, ShoppingBasket } from 'lucide-react';
 
 export default function ProductDetailPage() {
   const { slug } = useParams();
@@ -133,7 +134,7 @@ export default function ProductDetailPage() {
       <main className="flex-grow w-full max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-8">
         <div className="mb-6">
           <Link href="/shop" className="text-sm text-primary hover:underline inline-flex items-center gap-1">
-            <span className="material-symbols-outlined text-[16px]">arrow_back</span>
+            <ArrowLeft className="text-[16px]" />
             {t("শপে ফিরে যান", "Back to Shop")}
           </Link>
         </div>
@@ -229,7 +230,7 @@ export default function ProductDetailPage() {
                   onClick={decrementQty}
                   className="w-10 h-10 flex items-center justify-center text-on-surface hover:text-primary transition-colors btn-press cursor-pointer"
                 >
-                  <span className="material-symbols-outlined text-[18px]">remove</span>
+                  <Minus className="text-[18px]" />
                 </button>
                 <span className="w-12 text-center text-sm font-bold">
                   {language === "bn" ? quantity.toLocaleString("bn-BD") : quantity}
@@ -238,7 +239,7 @@ export default function ProductDetailPage() {
                   onClick={incrementQty}
                   className="w-10 h-10 flex items-center justify-center text-on-surface hover:text-primary transition-colors btn-press cursor-pointer"
                 >
-                  <span className="material-symbols-outlined text-[18px]">add</span>
+                  <Plus className="text-[18px]" />
                 </button>
               </div>
             </div>
@@ -249,14 +250,14 @@ export default function ProductDetailPage() {
                 onClick={handleAddToCart}
                 className="flex-grow bg-surface border border-primary text-primary font-bold py-3.5 px-6 rounded-full btn-press transition-colors hover:bg-primary/5 cursor-pointer flex items-center justify-center gap-2"
               >
-                <span className="material-symbols-outlined text-[20px]">shopping_cart</span>
+                <ShoppingCart className="text-[20px]" />
                 {t("কার্টে যোগ করুন", "Add to Cart")}
               </button>
               <button
                 onClick={handleBuyNow}
                 className="flex-grow bg-gradient-green text-white font-bold py-3.5 px-6 rounded-full btn-press shadow-md hover:shadow-lg transition-transform cursor-pointer flex items-center justify-center gap-2"
               >
-                <span className="material-symbols-outlined text-[20px]">shopping_basket</span>
+                <ShoppingBasket className="text-[20px]" />
                 {t("সরাসরি কিনুন", "Buy Now")}
               </button>
             </div>
@@ -297,7 +298,7 @@ export default function ProductDetailPage() {
                         onClick={() => addToCart(p, 1)}
                         className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center btn-press cursor-pointer hover:bg-primary-dark transition-colors"
                       >
-                        <span className="material-symbols-outlined text-[18px]">add</span>
+                        <Plus className="text-[18px]" />
                       </button>
                     </div>
                   </div>

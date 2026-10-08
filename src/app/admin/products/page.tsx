@@ -7,6 +7,7 @@ import { AdminSidebar } from "@/components/AdminSidebar";
 import { useApp } from "@/context/AppContext";
 import { Product } from "@/context/AppContext";
 import { insforge } from "@/lib/insforge";
+import { Search, Plus } from 'lucide-react';
 
 interface AdminProduct extends Product {
   stock?: number;
@@ -206,7 +207,7 @@ export default function AdminProductsPage() {
 
                 {/* Filter search box */}
                 <div className="flex items-center bg-surface-container-lowest border border-outline-variant/60 rounded-lg px-3 py-2 shadow-sm focus-within:border-primary transition-colors flex-1 min-w-[200px]">
-                  <span className="material-symbols-outlined text-on-surface-variant mr-2 text-[18px]">search</span>
+                  <Search className="text-on-surface-variant mr-2 text-[18px]" />
                   <input
                     type="text"
                     value={searchTerm}
@@ -222,7 +223,7 @@ export default function AdminProductsPage() {
                 href="/admin/products/new"
                 className="shrink-0 flex items-center justify-center gap-2 rounded-full px-5 py-2.5 font-headline-sm text-headline-sm text-on-primary shadow-sm hover:shadow-md transition-all scale-95 active:scale-90 bg-gradient-green cursor-pointer font-semibold"
               >
-                <span className="material-symbols-outlined text-sm font-bold">add</span>
+                <Plus className="text-sm font-bold" />
                 <span>{t("নতুন পণ্য যোগ করুন", "Add New Product")}</span>
               </Link>
             </div>

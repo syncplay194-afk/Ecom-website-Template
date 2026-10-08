@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import { AdminSidebar } from "@/components/AdminSidebar";
 import { insforge } from "@/lib/insforge";
 import { useApp } from "@/context/AppContext";
+import { ArrowLeft } from 'lucide-react';
 
 export default function EditOrderPage() {
   const router = useRouter();
@@ -90,7 +91,7 @@ export default function EditOrderPage() {
               onClick={() => router.push("/admin/orders")}
               className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors"
             >
-              <span className="material-symbols-outlined">arrow_back</span>
+              <ArrowLeft />
             </button>
             <h1 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary font-bold">
               {t("অর্ডার সম্পাদনা", "Edit Order")}

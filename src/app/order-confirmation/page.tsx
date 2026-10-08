@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useApp } from "@/context/AppContext";
 import { insforge } from "@/lib/insforge";
+import { CheckCircle, Banknote, Truck, ArrowRight } from 'lucide-react';
 
 interface OrderItem {
   productId: string;
@@ -133,7 +134,7 @@ export default function OrderConfirmationPage() {
         {/* Success Banner */}
         <section className="bg-surface-container-lowest rounded-2xl p-8 shadow-sm flex flex-col items-center text-center gap-4 border-t-4 border-primary">
           <div className="w-20 h-20 bg-primary-container rounded-full flex items-center justify-center mb-2">
-            <span className="material-symbols-outlined text-primary text-4xl font-filled">check_circle</span>
+            <CheckCircle className="text-primary text-4xl font-filled" />
           </div>
           <h1 className="text-headline-lg-mobile md:text-headline-lg font-headline-lg-mobile md:font-headline-lg text-on-surface">
             {t("আপনার অর্ডারটি সফল হয়েছে!", "Your Order has been Placed Successfully!")}
@@ -150,7 +151,7 @@ export default function OrderConfirmationPage() {
         {/* Payment Instructions Card */}
         <section className="bg-primary-container/10 rounded-2xl p-6 md:p-8 shadow-sm flex flex-col items-center text-center gap-4 border border-primary/20">
           <div className="w-16 h-16 bg-primary-container rounded-full flex items-center justify-center mb-2">
-            <span className="material-symbols-outlined text-primary text-3xl">payments</span>
+            <Banknote className="text-primary text-3xl" />
           </div>
           <h2 className="text-headline-sm font-headline-sm text-on-surface">
             {t("ম্যানুয়াল পেমেন্ট নির্দেশিকা", "Manual Payment Instructions")}
@@ -184,7 +185,7 @@ export default function OrderConfirmationPage() {
         {/* Delivery Address Card */}
         <section className="bg-surface-container-lowest rounded-2xl shadow-sm p-6 border border-surface-variant/30 flex flex-col gap-3">
           <h2 className="text-headline-sm font-headline-sm text-on-surface border-b border-outline-variant/30 pb-2 flex items-center gap-2 font-bold">
-            <span className="material-symbols-outlined text-primary">local_shipping</span>
+            <Truck className="text-primary" />
             {t("ডেলিভারি ঠিকানা", "Delivery Information")}
           </h2>
           <div className="text-body-md text-on-surface-variant space-y-1">
@@ -269,7 +270,7 @@ export default function OrderConfirmationPage() {
             <span className="text-headline-sm font-headline-sm">
               {t("কেনাকাটা চালিয়ে যান", "Continue Shopping")}
             </span>
-            <span className="material-symbols-outlined text-sm">arrow_forward</span>
+            <ArrowRight className="text-sm" />
           </button>
         </div>
       </main>

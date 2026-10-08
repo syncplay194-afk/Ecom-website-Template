@@ -7,6 +7,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useApp } from "@/context/AppContext";
 import { insforge } from "@/lib/insforge";
+import { ArrowRight, Plus, Shield, Bike, Lock, Undo } from 'lucide-react';
 
 export default function HomePage() {
   const { t, addToCart, language } = useApp();
@@ -146,7 +147,7 @@ export default function HomePage() {
                 href="/shop"
                 className="bg-gradient-green text-white font-headline-sm text-headline-sm px-6 py-3 rounded-full btn-press shadow-md hover:shadow-lg inline-flex items-center gap-2"
               >
-                {t("অর্ডার করুন", "Order Now")} <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                {t("অর্ডার করুন", "Order Now")} <ArrowRight className="text-[18px]" />
               </Link>
             </div>
           )}
@@ -164,7 +165,7 @@ export default function HomePage() {
               {t("জনপ্রিয় পণ্য", "Popular Products")}
             </h2>
             <Link href="/shop" className="text-primary font-label-md text-label-md hover:underline flex items-center gap-1">
-              {t("সব দেখুন", "See All")} <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+              {t("সব দেখুন", "See All")} <ArrowRight className="text-[16px]" />
             </Link>
           </div>
 
@@ -238,7 +239,7 @@ export default function HomePage() {
                         className="bg-gradient-to-br from-primary to-[#008C44] text-white w-8 h-8 rounded-full flex items-center justify-center btn-press shadow-soft hover-lift"
                         title={t("কার্টে যোগ করুন", "Add to Cart")}
                     >
-                      <span className="material-symbols-outlined text-[18px]">add</span>
+                      <Plus className="text-[18px]" />
                     </button>
                   </div>
                 </div>
@@ -345,7 +346,7 @@ export default function HomePage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <div className="text-center">
                 <div className="trust-circle bg-green-50">
-                  <i className="fas fa-shield-alt text-primary text-2xl"></i>
+                  <Shield className="text-primary text-2xl" />
                 </div>
                 <div className="text-sm font-bold text-gray-800 mt-2">
                   {t("আসল পণ্য", "Genuine Product")}
@@ -354,7 +355,7 @@ export default function HomePage() {
               </div>
               <div className="text-center">
                 <div className="trust-circle bg-orange-50">
-                  <i className="fas fa-motorcycle text-orange-500 text-2xl"></i>
+                  <Bike className="text-orange-500 text-2xl" />
                 </div>
                 <div className="text-sm font-bold text-gray-800 mt-2">
                   {t("দ্রুত ডেলিভারি", "Fast Delivery")}
@@ -363,7 +364,7 @@ export default function HomePage() {
               </div>
               <div className="text-center">
                 <div className="trust-circle bg-blue-50">
-                  <i className="fas fa-lock text-blue-500 text-2xl"></i>
+                  <Lock className="text-blue-500 text-2xl" />
                 </div>
                 <div className="text-sm font-bold text-gray-800 mt-2">
                   {t("নিরাপদ পেমেন্ট", "Secure Payment")}
@@ -372,7 +373,7 @@ export default function HomePage() {
               </div>
               <div className="text-center">
                 <div className="trust-circle bg-red-50">
-                  <i className="fas fa-undo text-red-400 text-2xl"></i>
+                  <Undo className="text-red-400 text-2xl" />
                 </div>
                 <div className="text-sm font-bold text-gray-800 mt-2">
                   {t("সহজ রিটার্ন", "Easy Return")}

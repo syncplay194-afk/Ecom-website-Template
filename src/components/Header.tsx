@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useApp } from "@/context/AppContext";
+import { Menu, Search, ShoppingCart, X, Home, Store, Info, MessageCircle } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const { language, setLanguage, t, cartCount } = useApp();
@@ -25,7 +26,7 @@ export const Header: React.FC = () => {
             className="md:hidden p-1 text-primary hover:bg-surface-container rounded-lg"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <span className="material-symbols-outlined align-middle">menu</span>
+            <Menu className="align-middle" />
           </button>
           <Link href="/" className="flex items-center gap-2 md:gap-3 shrink-0 select-none">
             <img
@@ -98,7 +99,7 @@ export const Header: React.FC = () => {
               onClick={() => setShowSearch(!showSearch)}
               className="scale-95 active:scale-90 transition-transform hover:text-primary-dark transition-colors duration-200 cursor-pointer"
             >
-              <span className="material-symbols-outlined align-middle">search</span>
+              <Search className="align-middle" />
             </button>
           </div>
 
@@ -107,7 +108,7 @@ export const Header: React.FC = () => {
             href="/cart"
             className="relative flex items-center justify-center w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-container-high transition-colors text-primary btn-press cursor-pointer shadow-soft hover-lift"
           >
-            <span className="material-symbols-outlined align-middle">shopping_cart</span>
+            <ShoppingCart className="align-middle" />
             {cartCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-gradient-orange text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[16px] h-[16px] flex items-center justify-center animate-pulse">
                 {language === "bn"
@@ -129,24 +130,24 @@ export const Header: React.FC = () => {
             <div className="flex justify-between items-center mb-6 border-b border-outline-variant pb-3">
               <span className="font-bold text-primary font-headline-sm text-lg">Menu</span>
               <button onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary">
-                <span className="material-symbols-outlined">close</span>
+                <X />
               </button>
             </div>
             <nav className="flex flex-col gap-5">
               <Link href="/" className="text-on-surface font-bold text-[15px] flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
-                <span className="material-symbols-outlined text-primary text-[20px]">home</span>
+                <Home className="text-primary text-[20px]" />
                 {t("হোম", "Home")}
               </Link>
               <Link href="/shop" className="text-on-surface font-bold text-[15px] flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
-                <span className="material-symbols-outlined text-primary text-[20px]">storefront</span>
+                <Store className="text-primary text-[20px]" />
                 {t("শপ", "Shop")}
               </Link>
               <Link href="/about" className="text-on-surface font-bold text-[15px] flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
-                <span className="material-symbols-outlined text-primary text-[20px]">info</span>
+                <Info className="text-primary text-[20px]" />
                 {t("আমাদের সম্পর্কে", "About Us")}
               </Link>
               <Link href="/contact" className="text-on-surface font-bold text-[15px] flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
-                <span className="material-symbols-outlined text-primary text-[20px]">chat</span>
+                <MessageCircle className="text-primary text-[20px]" />
                 {t("যোগাযোগ", "Contact")}
               </Link>
             </nav>
@@ -162,7 +163,7 @@ export const Header: React.FC = () => {
             isActive("/") ? "text-[#ff6600] scale-105" : "text-white hover:text-gray-300"
           }`}
         >
-          <span className="material-symbols-outlined text-[22px]">home</span>
+          <Home className="text-[22px]" />
           <span>{t("হোম", "Home")}</span>
         </Link>
 
@@ -172,7 +173,7 @@ export const Header: React.FC = () => {
             isActive("/shop") ? "text-[#ff6600] scale-105" : "text-white hover:text-gray-300"
           }`}
         >
-          <span className="material-symbols-outlined text-[22px]">storefront</span>
+          <Store className="text-[22px]" />
           <span>{t("শপ", "Shop")}</span>
         </Link>
 
@@ -182,7 +183,7 @@ export const Header: React.FC = () => {
             isActive("/cart") ? "text-[#ff6600] scale-105" : "text-white hover:text-gray-300"
           }`}
         >
-          <span className="material-symbols-outlined text-[22px]">shopping_cart</span>
+          <ShoppingCart className="text-[22px]" />
           {cartCount > 0 && (
             <span className="absolute top-0.5 right-[25%] bg-gradient-orange text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-pulse">
               {language === "bn" ? cartCount.toLocaleString("bn-BD") : cartCount}
@@ -197,7 +198,7 @@ export const Header: React.FC = () => {
             isActive("/contact") ? "text-[#ff6600] scale-105" : "text-white hover:text-gray-300"
           }`}
         >
-          <span className="material-symbols-outlined text-[22px]">chat</span>
+          <MessageCircle className="text-[22px]" />
           <span>{t("যোগাযোগ", "Contact")}</span>
         </Link>
       </nav>

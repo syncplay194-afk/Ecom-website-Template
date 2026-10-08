@@ -6,6 +6,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useApp } from "@/context/AppContext";
 import { insforge } from "@/lib/insforge";
+import { Minus, Plus, Receipt, ArrowRight, UserCheck } from 'lucide-react';
 
 export default function CartPage() {
   const { t, cart, updateQuantity, removeFromCart, cartTotal, language } = useApp();
@@ -130,7 +131,7 @@ export default function CartPage() {
                               aria-label="Decrease quantity"
                               className="w-8 h-8 flex items-center justify-center text-on-surface hover:bg-surface-container-high active:bg-surface-variant transition-colors cursor-pointer"
                             >
-                              <span className="material-symbols-outlined text-[18px]">remove</span>
+                              <Minus className="text-[18px]" />
                             </button>
                             <span className="w-10 text-center text-body-md font-body-md">
                               {f(item.quantity)}
@@ -140,7 +141,7 @@ export default function CartPage() {
                               aria-label="Increase quantity"
                               className="w-8 h-8 flex items-center justify-center text-on-surface hover:bg-surface-container-high active:bg-surface-variant transition-colors cursor-pointer"
                             >
-                              <span className="material-symbols-outlined text-[18px]">add</span>
+                              <Plus className="text-[18px]" />
                             </button>
                           </div>
 
@@ -169,7 +170,7 @@ export default function CartPage() {
               <div className="lg:col-span-4">
                 <div className="bg-surface-container-lowest rounded-2xl shadow-sm p-6 border border-outline-variant/30 sticky top-24">
                   <h2 className="text-headline-sm font-headline-sm text-on-surface mb-6 flex items-center gap-2 border-b border-outline-variant/30 pb-4">
-                    <span className="material-symbols-outlined text-primary">receipt_long</span>
+                    <Receipt className="text-primary" />
                     {t("অর্ডার সারসংক্ষেপ", "Order Summary")}
                   </h2>
 
@@ -212,11 +213,11 @@ export default function CartPage() {
                     className="w-full text-on-primary bg-primary rounded-full py-3 px-4 font-headline-sm text-headline-sm shadow-sm hover:shadow-md hover:bg-primary-dark transition-all duration-200 active:scale-95 flex items-center justify-center gap-2 bg-gradient-green cursor-pointer"
                   >
                     {t("অর্ডার নিশ্চিত করুন", "Proceed to Checkout")}
-                    <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
+                    <ArrowRight className="text-[20px]" />
                   </Link>
 
                   <div className="mt-4 flex items-center justify-center gap-2 text-label-sm font-label-sm text-on-surface-variant">
-                    <span className="material-symbols-outlined text-[16px] text-primary">verified_user</span>
+                    <UserCheck className="text-[16px] text-primary" />
                     {t("নিরাপদ পেমেন্ট গ্যারান্টিড", "Secure Payment Guaranteed")}
                   </div>
                 </div>

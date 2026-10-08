@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useApp } from "@/context/AppContext";
 import { insforge } from "@/lib/insforge";
+import { ArrowLeft, Truck, Banknote, Receipt, Tag, CheckCircle, Lock } from 'lucide-react';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -174,7 +175,7 @@ export default function CheckoutPage() {
             </span>
           </Link>
           <Link href="/cart" className="text-sm font-semibold text-primary hover:underline flex items-center gap-1">
-            <span className="material-symbols-outlined text-[16px]">arrow_back</span>
+            <ArrowLeft className="text-[16px]" />
             {t("কার্টে ফিরে যান", "Back to Cart")}
           </Link>
         </div>
@@ -225,7 +226,7 @@ export default function CheckoutPage() {
           <div className="lg:col-span-8 flex flex-col gap-6">
             <section className="bg-surface-container-lowest rounded-2xl p-6 md:p-8 shadow-sm border border-surface-variant/40">
               <div className="flex items-center gap-3 mb-6 border-b border-surface-variant/30 pb-4">
-                <span className="material-symbols-outlined text-primary">local_shipping</span>
+                <Truck className="text-primary" />
                 <h2 className="font-headline-sm text-headline-sm text-on-surface">
                   {t("ডেলিভারি তথ্য", "Delivery Information")}
                 </h2>
@@ -358,7 +359,7 @@ export default function CheckoutPage() {
             {/* Payment Method COD */}
             <section className="bg-primary-container/10 rounded-2xl p-6 shadow-sm border border-primary/20 flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-gradient-green text-white flex items-center justify-center shrink-0 shadow-sm">
-                <span className="material-symbols-outlined">payments</span>
+                <Banknote />
               </div>
               <div>
                 <h3 className="font-headline-sm text-headline-sm text-on-surface mb-1">
@@ -381,7 +382,7 @@ export default function CheckoutPage() {
           <div className="lg:col-span-4">
             <div className="bg-surface-container-lowest rounded-2xl p-6 shadow-md border border-surface-variant/30 sticky top-24">
               <h2 className="font-headline-sm text-headline-sm text-on-surface mb-5 pb-4 border-b border-surface-variant/30 flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary">receipt_long</span>
+                <Receipt className="text-primary" />
                 {t("অর্ডার সামারি", "Order Summary")}
               </h2>
 
@@ -399,7 +400,7 @@ export default function CheckoutPage() {
                 {totalDiscount > 0 && (
                   <div className="flex justify-between items-center font-body-md text-body-md text-primary-container">
                     <span className="flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[16px]">loyalty</span>
+                      <Tag className="text-[16px]" />
                       {t("ডিসকাউন্ট", "Discounts")}
                     </span>
                     <span className="font-bold text-error">- ৳ {f(totalDiscount)}</span>
@@ -424,12 +425,12 @@ export default function CheckoutPage() {
                 onClick={handlePlaceOrder}
                 className="w-full bg-gradient-green text-on-primary font-label-md text-label-md py-4 rounded-full shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-[2px] active:scale-95 flex justify-center items-center gap-2 cursor-pointer font-bold text-[15px] disabled:opacity-50"
               >
-                <span className="material-symbols-outlined">check_circle</span>
+                <CheckCircle />
                 {isSubmitting ? t("অপেক্ষা করুন...", "Please wait...") : t("অর্ডার প্লেস করুন", "Place Order")}
               </button>
 
               <div className="mt-5 flex items-center justify-center gap-2 text-on-surface-variant font-micro text-micro bg-surface-container-high px-3 py-2 rounded-full w-fit mx-auto">
-                <span className="material-symbols-outlined text-[14px]">lock</span>
+                <Lock className="text-[14px]" />
                 <span>{t("নিরাপদ ও এনক্রিপ্টেড চেকআউট", "Secure and Encrypted Checkout")}</span>
               </div>
             </div>

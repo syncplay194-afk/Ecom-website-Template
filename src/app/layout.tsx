@@ -22,17 +22,6 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;500;600;700&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Tiro+Bangla:ital@0;1&display=swap"
           rel="stylesheet"
         />
-        {/* Material Icons */}
-        <link
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-          rel="stylesheet"
-        />
-        {/* Font Awesome Icons */}
-        <link
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-          rel="stylesheet"
-          precedence="default"
-        />
       </head>
       <body className="min-h-full flex flex-col antialiased">
         <AppProvider>

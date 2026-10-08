@@ -16,6 +16,7 @@ interface OrderItem {
   unitEn: string;
 }
 import { insforge } from "@/lib/insforge";
+import { Banknote, Truck } from 'lucide-react';
 
 interface AdminOrder {
   id: string;
@@ -340,7 +341,7 @@ export default function AdminOrdersPage() {
                 <div className="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full blur-xl group-hover:bg-primary/10 transition-colors"></div>
                 <div className="flex items-center gap-4 relative z-10">
                   <div className="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container shrink-0">
-                    <span className="material-symbols-outlined text-primary text-[24px]">payments</span>
+                    <Banknote className="text-primary text-[24px]" />
                   </div>
                   <div>
                     <p className="font-label-md text-label-md text-on-surface-variant mb-0.5">
@@ -379,7 +380,7 @@ export default function AdminOrdersPage() {
                 <div className="absolute -right-4 -top-4 w-24 h-24 bg-secondary-container/5 rounded-full blur-xl group-hover:bg-secondary-container/10 transition-colors"></div>
                 <div className="flex items-center gap-4 relative z-10">
                   <div className="w-12 h-12 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-[24px]">local_shipping</span>
+                    <Truck className="text-[24px]" />
                   </div>
                   <div>
                     <p className="font-label-md text-label-md text-on-surface-variant mb-0.5">

@@ -4,6 +4,7 @@ import React from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useApp } from "@/context/AppContext";
+import { Store, Truck } from 'lucide-react';
 
 export default function AboutPage() {
   const { t } = useApp();
@@ -27,10 +28,10 @@ export default function AboutPage() {
             {/* Animated Icon Banner */}
             <div className="flex gap-5 mb-10">
               <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:-translate-y-2 group-hover:scale-110 transition-all duration-500 shadow-sm border border-primary/20">
-                <span className="material-symbols-outlined text-primary text-[32px]">storefront</span>
+                <Store className="text-primary text-[32px]" />
               </div>
               <div className="w-16 h-16 rounded-full bg-secondary-container/20 flex items-center justify-center group-hover:-translate-y-2 group-hover:scale-110 transition-all duration-500 delay-[50ms] shadow-sm border border-secondary-container/30">
-                <span className="material-symbols-outlined text-accent text-[32px]">local_shipping</span>
+                <Truck className="text-accent text-[32px]" />
               </div>
               <div className="w-16 h-16 rounded-full bg-[#003366]/10 flex items-center justify-center group-hover:-translate-y-2 group-hover:scale-110 transition-all duration-500 delay-[100ms] shadow-sm border border-[#003366]/20">
                 <span className="material-symbols-outlined text-[#003366] text-[32px]">verified</span>

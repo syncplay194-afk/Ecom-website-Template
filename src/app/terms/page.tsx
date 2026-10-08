@@ -4,6 +4,7 @@ import React from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useApp } from "@/context/AppContext";
+import { Gavel, ClipboardList, UserCheck } from 'lucide-react';
 
 export default function TermsPage() {
   const { t } = useApp();
@@ -27,13 +28,13 @@ export default function TermsPage() {
             {/* Animated Icon Banner */}
             <div className="flex gap-5 mb-10">
               <div className="w-16 h-16 rounded-full bg-blue-500/10 flex items-center justify-center group-hover:-translate-y-2 group-hover:scale-110 transition-all duration-500 shadow-sm border border-blue-500/20">
-                <span className="material-symbols-outlined text-blue-600 text-[32px]">gavel</span>
+                <Gavel className="text-blue-600 text-[32px]" />
               </div>
               <div className="w-16 h-16 rounded-full bg-purple-500/10 flex items-center justify-center group-hover:-translate-y-2 group-hover:scale-110 transition-all duration-500 delay-[50ms] shadow-sm border border-purple-500/20">
-                <span className="material-symbols-outlined text-purple-600 text-[32px]">assignment</span>
+                <ClipboardList className="text-purple-600 text-[32px]" />
               </div>
               <div className="w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center group-hover:-translate-y-2 group-hover:scale-110 transition-all duration-500 delay-[100ms] shadow-sm border border-indigo-500/20">
-                <span className="material-symbols-outlined text-indigo-600 text-[32px]">verified_user</span>
+                <UserCheck className="text-indigo-600 text-[32px]" />
               </div>
             </div>
 

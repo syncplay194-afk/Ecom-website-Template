@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useApp } from "@/context/AppContext";
 import { insforge } from "@/lib/insforge";
+import { Shield } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const { t } = useApp();
@@ -151,7 +152,7 @@ export default function AdminLoginPage() {
 
         {/* Footer info */}
         <div className="text-center mt-2 flex items-center justify-center gap-1 text-on-surface-variant/70">
-          <span className="material-symbols-outlined text-sm align-middle">security</span>
+          <Shield className="text-sm align-middle" />
           <span className="font-micro text-micro font-medium">{t("সুরক্ষিত পোর্টাল", "Secure Internal Portal")}</span>
         </div>
       </main>

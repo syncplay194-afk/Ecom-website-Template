@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useApp } from "@/context/AppContext";
+import { Store, MapPin, Phone, PhoneCall, Mail, Loader2, Send, MessageCircle } from 'lucide-react';
 
 export default function ContactPage() {
   const { t } = useApp();
@@ -55,10 +56,10 @@ export default function ContactPage() {
             {/* Address Card */}
             <div className="group bg-surface-container-lowest rounded-3xl p-6 md:p-8 border border-outline-variant/30 shadow-sm hover:shadow-md transition-all duration-300 flex items-start gap-6 hover:-translate-y-1 relative overflow-hidden">
               <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                <span className="material-symbols-outlined text-[120px] text-primary">storefront</span>
+                <Store className="text-[120px] text-primary" />
               </div>
               <div className="w-14 h-14 shrink-0 rounded-full bg-primary/10 text-primary flex items-center justify-center border border-primary/20">
-                <span className="material-symbols-outlined text-[28px]">location_on</span>
+                <MapPin className="text-[28px]" />
               </div>
               <div>
                 <h3 className="font-headline-sm text-xl font-bold text-on-surface mb-2">{t("আমাদের ঠিকানা", "Our Address")}</h3>
@@ -72,10 +73,10 @@ export default function ContactPage() {
             {/* Phone Card */}
             <div className="group bg-surface-container-lowest rounded-3xl p-6 md:p-8 border border-outline-variant/30 shadow-sm hover:shadow-md transition-all duration-300 flex items-start gap-6 hover:-translate-y-1 relative overflow-hidden">
               <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                <span className="material-symbols-outlined text-[120px] text-green-600">call</span>
+                <Phone className="text-[120px] text-green-600" />
               </div>
               <div className="w-14 h-14 shrink-0 rounded-full bg-green-500/10 text-green-600 flex items-center justify-center border border-green-500/20">
-                <span className="material-symbols-outlined text-[28px]">phone_in_talk</span>
+                <PhoneCall className="text-[28px]" />
               </div>
               <div>
                 <h3 className="font-headline-sm text-xl font-bold text-on-surface mb-2">{t("ফোন নম্বর", "Phone Number")}</h3>
@@ -91,10 +92,10 @@ export default function ContactPage() {
             {/* Email Card */}
             <div className="group bg-surface-container-lowest rounded-3xl p-6 md:p-8 border border-outline-variant/30 shadow-sm hover:shadow-md transition-all duration-300 flex items-start gap-6 hover:-translate-y-1 relative overflow-hidden">
               <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                <span className="material-symbols-outlined text-[120px] text-blue-600">mail</span>
+                <Mail className="text-[120px] text-blue-600" />
               </div>
               <div className="w-14 h-14 shrink-0 rounded-full bg-blue-500/10 text-blue-600 flex items-center justify-center border border-blue-500/20">
-                <span className="material-symbols-outlined text-[28px]">mail</span>
+                <Mail className="text-[28px]" />
               </div>
               <div>
                 <h3 className="font-headline-sm text-xl font-bold text-on-surface mb-2">{t("ইমেইল", "Email")}</h3>
@@ -110,10 +111,10 @@ export default function ContactPage() {
             {/* WhatsApp Card */}
             <div className="group bg-surface-container-lowest rounded-3xl p-6 md:p-8 border border-outline-variant/30 shadow-sm hover:shadow-md transition-all duration-300 flex items-start gap-6 hover:-translate-y-1 relative overflow-hidden">
               <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                <i className="fab fa-whatsapp text-[120px] text-[#25D366]"></i>
+                <MessageCircle className="text-[120px] text-[#25D366]" />
               </div>
               <div className="w-14 h-14 shrink-0 rounded-full bg-[#25D366]/10 text-[#25D366] flex items-center justify-center border border-[#25D366]/20">
-                <i className="fab fa-whatsapp text-[28px]"></i>
+                <MessageCircle className="text-[28px]" />
               </div>
               <div>
                 <h3 className="font-headline-sm text-xl font-bold text-on-surface mb-2">WhatsApp</h3>
@@ -185,11 +186,11 @@ export default function ContactPage() {
                 className="w-full bg-primary text-white font-bold text-lg rounded-xl py-4 mt-2 hover:bg-primary/90 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2 btn-press disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
-                  <span className="material-symbols-outlined animate-spin text-[24px]">progress_activity</span>
+                  <Loader2 className="animate-spin text-[24px]" />
                 ) : (
                   <>
                     {t("বার্তা পাঠান", "Send Message")}
-                    <span className="material-symbols-outlined text-[20px]">send</span>
+                    <Send className="text-[20px]" />
                   </>
                 )}
               </button>

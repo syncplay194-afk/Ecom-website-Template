@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { AdminSidebar } from "@/components/AdminSidebar";
 import { useApp } from "@/context/AppContext";
 import { insforge } from "@/lib/insforge";
+import { Truck } from 'lucide-react';
 
 export type HeroSlide = {
   image_url: string;
@@ -136,7 +137,7 @@ export default function AdminSettingsPage() {
               {/* Delivery Fee Section */}
               <div className="bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant/30">
                 <h2 className="font-headline-sm text-headline-sm text-on-surface mb-4 flex items-center gap-2 border-b border-outline-variant/20 pb-3 font-bold">
-                  <span className="material-symbols-outlined text-primary">local_shipping</span>
+                  <Truck className="text-primary" />
                   {t("ডেলিভারি ফি", "Delivery Fee")}
                 </h2>
                 <div>

@@ -4,6 +4,7 @@ import React from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useApp } from "@/context/AppContext";
+import { ShieldCheck, Shield, FileText } from 'lucide-react';
 
 export default function PrivacyPage() {
   const { t } = useApp();
@@ -27,13 +28,13 @@ export default function PrivacyPage() {
             {/* Animated Icon Banner */}
             <div className="flex gap-5 mb-10">
               <div className="w-16 h-16 rounded-full bg-rose-500/10 flex items-center justify-center group-hover:-translate-y-2 group-hover:scale-110 transition-all duration-500 shadow-sm border border-rose-500/20">
-                <span className="material-symbols-outlined text-rose-600 text-[32px]">shield_lock</span>
+                <ShieldCheck className="text-rose-600 text-[32px]" />
               </div>
               <div className="w-16 h-16 rounded-full bg-pink-500/10 flex items-center justify-center group-hover:-translate-y-2 group-hover:scale-110 transition-all duration-500 delay-[50ms] shadow-sm border border-pink-500/20">
-                <span className="material-symbols-outlined text-pink-600 text-[32px]">security</span>
+                <Shield className="text-pink-600 text-[32px]" />
               </div>
               <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center group-hover:-translate-y-2 group-hover:scale-110 transition-all duration-500 delay-[100ms] shadow-sm border border-red-500/20">
-                <span className="material-symbols-outlined text-red-600 text-[32px]">policy</span>
+                <FileText className="text-red-600 text-[32px]" />
               </div>
             </div>
 

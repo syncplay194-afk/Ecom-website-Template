@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import { useApp } from "@/context/AppContext";
 import { Product } from "@/context/AppContext";
 import { insforge } from "@/lib/insforge";
+import { SearchX, Plus } from 'lucide-react';
 
 function ShopContent() {
   const { t, addToCart, language } = useApp();
@@ -354,7 +355,7 @@ function ShopContent() {
           <div className="space-y-10">
             {activeGroups.length === 0 ? (
               <div className="bg-surface-container-lowest rounded-2xl p-12 text-center border border-surface-variant/40 shadow-sm">
-                <span className="material-symbols-outlined text-[48px] text-muted mb-2">search_off</span>
+                <SearchX className="text-[48px] text-muted mb-2" />
                 <p className="text-on-surface-variant font-bold">
                   {t("কোনো পণ্য খুঁজে পাওয়া যায়নি!", "No products match the selected filters.")}
                 </p>
@@ -432,7 +433,7 @@ function ShopContent() {
                                 className="bg-gradient-to-br from-primary to-[#008C44] text-white w-8 h-8 rounded-full flex items-center justify-center btn-press shadow-soft hover-lift cursor-pointer"
                                 title={t("কার্টে যোগ করুন", "Add to Cart")}
                               >
-                                <span className="material-symbols-outlined text-[16px]">add</span>
+                                <Plus className="text-[16px]" />
                               </button>
                             </div>
                           </div>

@@ -4,6 +4,7 @@ import React from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useApp } from "@/context/AppContext";
+import { PackageMinus, RotateCcw, RefreshCcw } from 'lucide-react';
 
 export default function ReturnPage() {
   const { t } = useApp();
@@ -27,13 +28,13 @@ export default function ReturnPage() {
             {/* Animated Icon Banner */}
             <div className="flex gap-5 mb-10">
               <div className="w-16 h-16 rounded-full bg-orange-500/10 flex items-center justify-center group-hover:-translate-y-2 group-hover:scale-110 transition-all duration-500 shadow-sm border border-orange-500/20">
-                <span className="material-symbols-outlined text-orange-600 text-[32px]">assignment_return</span>
+                <PackageMinus className="text-orange-600 text-[32px]" />
               </div>
               <div className="w-16 h-16 rounded-full bg-yellow-500/10 flex items-center justify-center group-hover:-translate-y-2 group-hover:scale-110 transition-all duration-500 delay-[50ms] shadow-sm border border-yellow-600/20">
-                <span className="material-symbols-outlined text-yellow-600 text-[32px]">replay</span>
+                <RotateCcw className="text-yellow-600 text-[32px]" />
               </div>
               <div className="w-16 h-16 rounded-full bg-amber-500/10 flex items-center justify-center group-hover:-translate-y-2 group-hover:scale-110 transition-all duration-500 delay-[100ms] shadow-sm border border-amber-500/20">
-                <span className="material-symbols-outlined text-amber-600 text-[32px]">currency_exchange</span>
+                <RefreshCcw className="text-amber-600 text-[32px]" />
               </div>
             </div>
 

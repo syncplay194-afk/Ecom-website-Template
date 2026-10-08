@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useApp } from "@/context/AppContext";
+import { Phone, Mail, MapPin, Facebook, MessageCircle } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const { t } = useApp();
@@ -83,15 +84,15 @@ export const Footer: React.FC = () => {
             <div className="text-white text-base font-semibold mb-4">{t("যোগাযোগ করুন", "Contact Us")}</div>
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-gray-300 text-sm">
-                <i className="fas fa-phone text-primary text-base w-5 text-center"></i>
+                <Phone className="text-primary text-base w-5 text-center" />
                 <a href="tel:+1234567890" className="hover:text-white transition-colors">+1 234 567 890</a>
               </div>
               <div className="flex items-center gap-3 text-gray-300 text-sm">
-                <i className="fas fa-envelope text-primary text-base w-5 text-center"></i>
+                <Mail className="text-primary text-base w-5 text-center" />
                 <span>info@ecomshop.com</span>
               </div>
               <div className="flex items-center gap-3 text-gray-300 text-sm">
-                <i className="fas fa-map-marker-alt text-primary text-base w-5 text-center"></i>
+                <MapPin className="text-primary text-base w-5 text-center" />
                 <span>{t("১২৩ মক স্ট্রিট, ঢাকা, বাংলাদেশ", "123 Mock Street, Dhaka, Bangladesh")}</span>
               </div>
             </div>
@@ -103,7 +104,7 @@ export const Footer: React.FC = () => {
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-blue-700 flex items-center justify-center hover:scale-110 transition-transform btn-press cursor-pointer"
               >
-                <i className="fab fa-facebook-f text-white text-sm"></i>
+                <Facebook className="text-white text-sm" />
               </a>
               <a
                 href="#"
@@ -111,7 +112,7 @@ export const Footer: React.FC = () => {
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-[#25D366] flex items-center justify-center hover:scale-110 transition-transform btn-press cursor-pointer"
               >
-                <i className="fab fa-whatsapp text-white text-[18px]"></i>
+                <MessageCircle className="text-white text-[18px]" />
               </a>
             </div>
           </div>

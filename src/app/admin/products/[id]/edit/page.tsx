@@ -7,6 +7,7 @@ import { AdminSidebar } from "@/components/AdminSidebar";
 import { useApp } from "@/context/AppContext";
 import { Product } from "@/context/AppContext";
 import { insforge } from "@/lib/insforge";
+import { ArrowLeft, Info, Banknote, Tag, ShoppingBasket } from 'lucide-react';
 
 interface AdminProduct extends Product {
   stock?: number;
@@ -218,7 +219,7 @@ export default function AdminEditProductPage() {
             onClick={() => router.back()}
             className="mr-4 text-on-surface-variant hover:text-primary transition-colors p-2 rounded-full hover:bg-surface-container active:scale-95 cursor-pointer"
           >
-            <span className="material-symbols-outlined">arrow_back</span>
+            <ArrowLeft />
           </button>
           <div className="flex-1">
             <h1 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary tracking-tight font-bold font-tiro">
@@ -253,7 +254,7 @@ export default function AdminEditProductPage() {
                 {/* General Information Card */}
                 <div className="bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant/30 flex flex-col gap-5">
                   <h2 className="font-headline-sm text-headline-sm text-on-surface mb-2 flex items-center gap-2 border-b border-outline-variant/20 pb-3 font-bold">
-                    <span className="material-symbols-outlined text-primary">info</span>
+                    <Info className="text-primary" />
                     {t("সাধারণ তথ্য", "General Information")}
                   </h2>
 
@@ -362,7 +363,7 @@ export default function AdminEditProductPage() {
                 {/* Pricing & Stock Card (Fixed Bangla Label mistakes) */}
                 <div className="bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant/30 flex flex-col gap-5">
                   <h2 className="font-headline-sm text-headline-sm text-on-surface mb-2 flex items-center gap-2 border-b border-outline-variant/20 pb-3 font-bold">
-                    <span className="material-symbols-outlined text-primary">payments</span>
+                    <Banknote className="text-primary" />
                     {t("মূল্য ও ইনভেন্টরি", "Pricing & Inventory")}
                   </h2>
 
@@ -412,7 +413,7 @@ export default function AdminEditProductPage() {
                 {/* Discounts Card (Fixed label mistake, toggle logic) */}
                 <div className="bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant/30 flex flex-col gap-5">
                   <h2 className="font-headline-sm text-headline-sm text-on-surface mb-2 flex items-center gap-2 border-b border-outline-variant/20 pb-3 font-bold">
-                    <span className="material-symbols-outlined text-primary">loyalty</span>
+                    <Tag className="text-primary" />
                     {t("অফার ও ডিসকাউন্ট", "Discounts")}
                   </h2>
 
@@ -543,7 +544,7 @@ export default function AdminEditProductPage() {
                 {/* Pack Sizes / Units Card (Fixed Variants replaced by Single Pack Sizes text tags) */}
                 <div className="bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant/30 flex flex-col gap-4">
                   <h2 className="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2 border-b border-outline-variant/20 pb-3 font-bold">
-                    <span className="material-symbols-outlined text-primary">shopping_basket</span>
+                    <ShoppingBasket className="text-primary" />
                     {t("প্যাকেজ সাইজ / ইউনিট", "Pack Sizes / Units")}
                   </h2>
 
