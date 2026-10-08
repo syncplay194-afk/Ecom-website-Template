@@ -70,7 +70,7 @@ export const insforge = {
   database: new MockDatabase(),
   auth: {
     getCurrentUser: async () => ({ data: { id: 'mock-user-123', email: 'admin@example.com' }, error: null }),
-    signInWithPassword: async () => ({ data: { user: { id: 'mock-user-123' } }, error: null }),
+    signInWithPassword: async (credentials: any) => ({ data: { user: { id: 'mock-user-123' } }, error: null }),
     signOut: async () => ({ error: null }),
   }
 };
