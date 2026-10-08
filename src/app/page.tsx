@@ -68,7 +68,11 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+    <div className="bg-background text-on-background font-body-md min-h-screen flex flex-col relative z-0">
+      {/* Decorative Colorful Background Blobs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-pink-400/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 -z-10 animate-blob"></div>
+      <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-purple-400/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 -z-10 animate-blob animation-delay-2000"></div>
+      <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-amber-300/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 -z-10 animate-blob animation-delay-4000"></div>
       {/* TopNavBar */}
       <Header />
 
@@ -76,25 +80,25 @@ export default function HomePage() {
       <div className="w-full bg-surface-container-lowest py-3 px-margin-mobile md:px-margin-desktop overflow-x-auto whitespace-nowrap shadow-sm border-b border-surface-variant/40 hide-scrollbar flex gap-3 snap-x snap-mandatory">
         <Link
           href="/shop?cat=makeup"
-          className="snap-center inline-flex items-center px-4 py-2 bg-gradient-to-r from-primary to-[#008C44] text-white rounded-full font-label-md text-label-md btn-press shadow-premium hover-lift cursor-pointer"
+          className="snap-center inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full font-label-md text-label-md btn-press shadow-[0_4px_14px_0_rgba(236,72,153,0.39)] hover-lift cursor-pointer border-0"
         >
           {t("মেকআপ", "Makeup")}
         </Link>
         <Link
           href="/shop?cat=juwelary"
-          className="snap-center inline-flex items-center px-4 py-2 bg-surface border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-container-high transition-colors btn-press shadow-soft hover-lift cursor-pointer"
+          className="snap-center inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-full font-label-md text-label-md btn-press shadow-[0_4px_14px_0_rgba(245,158,11,0.39)] hover-lift cursor-pointer border-0"
         >
           {t("গহনা", "Juwelary")}
         </Link>
         <Link
           href="/shop?cat=cosmetics"
-          className="snap-center inline-flex items-center px-4 py-2 bg-surface border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-container-high transition-colors btn-press shadow-soft hover-lift cursor-pointer"
+          className="snap-center inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full font-label-md text-label-md btn-press shadow-[0_4px_14px_0_rgba(168,85,247,0.39)] hover-lift cursor-pointer border-0"
         >
           {t("প্রসাধন", "cosmetics")}
         </Link>
         <Link
           href="/shop?cat=bag"
-          className="snap-center inline-flex items-center px-4 py-2 bg-surface border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-container-high transition-colors btn-press shadow-soft hover-lift cursor-pointer"
+          className="snap-center inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-full font-label-md text-label-md btn-press shadow-[0_4px_14px_0_rgba(6,182,212,0.39)] hover-lift cursor-pointer border-0"
         >
           {t("ব্যাগ", "Bag")}
         </Link>
@@ -116,7 +120,8 @@ export default function HomePage() {
               style={{ backgroundImage: `url('${slide.image_url}')` }}
             ></div>
           ))}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/20"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/80 via-purple-900/40 to-transparent mix-blend-overlay"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
           
           {/* Carousel Indicators */}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
@@ -178,7 +183,7 @@ export default function HomePage() {
               return (
                 <div
                   key={product.id}
-                  className="w-[160px] md:w-[220px] shrink-0 snap-start bg-surface-container-lowest rounded-2xl p-4 shadow-soft border border-surface-variant hover-lift flex flex-col h-full relative group"
+                  className="w-[160px] md:w-[220px] shrink-0 snap-start bg-white/80 backdrop-blur-md rounded-2xl p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/40 hover:border-pink-300/50 hover:shadow-[0_8px_30px_rgba(236,72,153,0.15)] transition-all duration-300 hover-lift flex flex-col h-full relative group"
                 >
                   {/* Discount Badge */}
                   {hasDiscount && (
