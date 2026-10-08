@@ -1,7 +1,7 @@
 import { mockProducts, mockSettings, mockOrders } from './mockData';
 
 class MockDatabase {
-  from(table: string) {
+  from(table: string): any {
     return {
       select: () => this.buildQuery(table, 'select'),
       insert: () => this.buildQuery(table, 'insert'),
@@ -10,7 +10,7 @@ class MockDatabase {
     };
   }
 
-  rpc(funcName: string) {
+  rpc(funcName: string, args?: any): any {
     if (funcName === 'get_order_short_id') {
       return Promise.resolve({ data: 'ORD-123456', error: null });
     }
@@ -18,7 +18,7 @@ class MockDatabase {
   }
 
   buildQuery(table: string, action: string) {
-    let mockData = table === 'Products' ? [...mockProducts] : 
+    let mockData: any[] = table === 'Products' ? [...mockProducts] : 
                    table === 'Orders' ? [...mockOrders] : 
                    table === 'Settings' ? [...mockSettings] : [];
 

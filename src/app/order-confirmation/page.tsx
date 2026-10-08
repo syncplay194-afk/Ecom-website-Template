@@ -50,7 +50,7 @@ export default function OrderConfirmationPage() {
         setOrder(parsed);
         
         // Fetch the stable short order ID from the database
-        insforge.database.rpc("get_order_short_id", { order_uuid: parsed.orderId }).then(({ data }) => {
+        insforge.database.rpc("get_order_short_id", { order_uuid: parsed.orderId }).then(({ data }: any) => {
           if (data) setShortOrderId(data as string);
         });
       } catch (e) {
