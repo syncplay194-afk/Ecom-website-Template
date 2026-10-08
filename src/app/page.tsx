@@ -245,10 +245,16 @@ export default function HomePage() {
               );
             })}
           </div>
-        </section>
+        </motion.section>
 
         {/* Shop by Category */}
-        <section className="mt-4">
+        <motion.section 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mt-4"
+        >
           <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background mb-6">
             {t("ক্যাটাগরি সমূহ", "Categories")}
           </h2>
@@ -322,10 +328,16 @@ export default function HomePage() {
               </div>
             </Link>
           </div>
-        </section>
+        </motion.section>
 
         {/* Trust Badges */}
-        <section className="mt-4 mb-4">
+        <motion.section 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-4 mb-4"
+        >
           <div className="bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-variant/40 p-6">
             <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background text-center mb-6">
               {t("কেন আমাদের বেছে নেবেন?", "Why Choose Us?")}
