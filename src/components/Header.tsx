@@ -156,36 +156,36 @@ export const Header: React.FC = () => {
       )}
 
       {/* Mobile Bottom Navigation (Dark background, white text, Home/Shop/Cart/Contact from left) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 flex justify-around items-center py-1.5 z-50 shadow-[0_-4px_16px_rgba(0,0,0,0.3)] pb-[env(safe-area-inset-bottom)]">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/70 backdrop-blur-2xl border-t border-gray-200/50 flex justify-around items-center pt-2 pb-[calc(env(safe-area-inset-bottom)+8px)] z-50 shadow-[0_-1px_10px_rgba(0,0,0,0.03)]">
         <Link
           href="/"
-          className={`flex flex-col items-center justify-center flex-1 py-1 min-h-[44px] gap-0.5 text-[10px] font-bold transition-all duration-200 ${
-            isActive("/") ? "text-[#ff6600] scale-105" : "text-white hover:text-gray-300"
+          className={`flex flex-col items-center justify-center flex-1 py-1 min-h-[44px] gap-1 text-[10px] font-semibold transition-all duration-300 ${
+            isActive("/") ? "text-[#ff6600] scale-105" : "text-gray-500 hover:text-gray-700"
           }`}
         >
-          <Home className="text-[22px]" />
+          <Home size={22} className={isActive("/") ? "fill-current" : ""} />
           <span>{t("হোম", "Home")}</span>
         </Link>
 
         <Link
           href="/shop"
-          className={`flex flex-col items-center justify-center flex-1 py-1 min-h-[44px] gap-0.5 text-[10px] font-bold transition-all duration-200 ${
-            isActive("/shop") ? "text-[#ff6600] scale-105" : "text-white hover:text-gray-300"
+          className={`flex flex-col items-center justify-center flex-1 py-1 min-h-[44px] gap-1 text-[10px] font-semibold transition-all duration-300 ${
+            isActive("/shop") ? "text-[#ff6600] scale-105" : "text-gray-500 hover:text-gray-700"
           }`}
         >
-          <Store className="text-[22px]" />
+          <Store size={22} className={isActive("/shop") ? "fill-current" : ""} />
           <span>{t("শপ", "Shop")}</span>
         </Link>
 
         <Link
           href="/cart"
-          className={`relative flex flex-col items-center justify-center flex-1 py-1 min-h-[44px] gap-0.5 text-[10px] font-bold transition-all duration-200 ${
-            isActive("/cart") ? "text-[#ff6600] scale-105" : "text-white hover:text-gray-300"
+          className={`relative flex flex-col items-center justify-center flex-1 py-1 min-h-[44px] gap-1 text-[10px] font-semibold transition-all duration-300 ${
+            isActive("/cart") ? "text-[#ff6600] scale-105" : "text-gray-500 hover:text-gray-700"
           }`}
         >
-          <ShoppingCart className="text-[22px]" />
+          <ShoppingCart size={22} className={isActive("/cart") ? "fill-current" : ""} />
           {cartCount > 0 && (
-            <span className="absolute top-0.5 right-[25%] bg-gradient-orange text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-pulse">
+            <span className="absolute top-0 right-[25%] bg-[#ff6600] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
               {language === "bn" ? cartCount.toLocaleString("bn-BD") : cartCount}
             </span>
           )}
@@ -194,11 +194,11 @@ export const Header: React.FC = () => {
 
         <Link
           href="/contact"
-          className={`flex flex-col items-center justify-center flex-1 py-1 min-h-[44px] gap-0.5 text-[10px] font-bold transition-all duration-200 ${
-            isActive("/contact") ? "text-[#ff6600] scale-105" : "text-white hover:text-gray-300"
+          className={`flex flex-col items-center justify-center flex-1 py-1 min-h-[44px] gap-1 text-[10px] font-semibold transition-all duration-300 ${
+            isActive("/contact") ? "text-[#ff6600] scale-105" : "text-gray-500 hover:text-gray-700"
           }`}
         >
-          <MessageCircle className="text-[22px]" />
+          <MessageCircle size={22} className={isActive("/contact") ? "fill-current" : ""} />
           <span>{t("যোগাযোগ", "Contact")}</span>
         </Link>
       </nav>
