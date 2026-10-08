@@ -200,8 +200,25 @@ function ShopContent() {
 
       {/* Main Content Area */}
       {loading ? (
-        <div className="flex-grow flex justify-center items-center font-bold text-primary py-24">
-          Loading products...
+        <div className="flex-grow w-full max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-section-gap flex flex-col md:flex-row gap-6 mt-4 mb-16 md:mb-0">
+          {/* Sidebar Skeleton */}
+          <aside className="hidden md:block w-64 flex-shrink-0 bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-surface-variant/40 h-[400px] animate-pulse"></aside>
+          
+          {/* Products Grid Skeleton */}
+          <div className="flex-grow w-full space-y-10">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
+              {[...Array(8)].map((_, i) => (
+                <div key={i} className="bg-surface-container-lowest rounded-2xl shadow-soft border border-surface-variant overflow-hidden h-[280px] flex flex-col animate-pulse">
+                  <div className="aspect-square bg-gray-200 w-full"></div>
+                  <div className="p-3.5 flex flex-col gap-2">
+                    <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                    <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                    <div className="h-5 bg-gray-200 rounded w-1/3 mt-2"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       ) : (
       <main className="flex-grow w-full max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-section-gap flex flex-col md:flex-row gap-6 mt-4 mb-16 md:mb-0">

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useApp } from "@/context/AppContext";
@@ -71,28 +72,28 @@ export default function HomePage() {
       <Header />
 
       {/* Category Pills (Links to /shop with category parameters) */}
-      <div className="w-full bg-surface-container-lowest py-3 px-margin-mobile md:px-margin-desktop overflow-x-auto whitespace-nowrap shadow-sm border-b border-surface-variant/40 hide-scrollbar flex gap-3">
+      <div className="w-full bg-surface-container-lowest py-3 px-margin-mobile md:px-margin-desktop overflow-x-auto whitespace-nowrap shadow-sm border-b border-surface-variant/40 hide-scrollbar flex gap-3 snap-x snap-mandatory">
         <Link
           href="/shop?cat=makeup"
-          className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-primary to-[#008C44] text-white rounded-full font-label-md text-label-md btn-press shadow-premium hover-lift cursor-pointer"
+          className="snap-center inline-flex items-center px-4 py-2 bg-gradient-to-r from-primary to-[#008C44] text-white rounded-full font-label-md text-label-md btn-press shadow-premium hover-lift cursor-pointer"
         >
           {t("মেকআপ", "Makeup")}
         </Link>
         <Link
           href="/shop?cat=juwelary"
-          className="inline-flex items-center px-4 py-2 bg-surface border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-container-high transition-colors btn-press shadow-soft hover-lift cursor-pointer"
+          className="snap-center inline-flex items-center px-4 py-2 bg-surface border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-container-high transition-colors btn-press shadow-soft hover-lift cursor-pointer"
         >
           {t("গহনা", "Juwelary")}
         </Link>
         <Link
           href="/shop?cat=cosmetics"
-          className="inline-flex items-center px-4 py-2 bg-surface border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-container-high transition-colors btn-press shadow-soft hover-lift cursor-pointer"
+          className="snap-center inline-flex items-center px-4 py-2 bg-surface border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-container-high transition-colors btn-press shadow-soft hover-lift cursor-pointer"
         >
           {t("প্রসাধন", "cosmetics")}
         </Link>
         <Link
           href="/shop?cat=bag"
-          className="inline-flex items-center px-4 py-2 bg-surface border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-container-high transition-colors btn-press shadow-soft hover-lift cursor-pointer"
+          className="snap-center inline-flex items-center px-4 py-2 bg-surface border border-outline-variant text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-container-high transition-colors btn-press shadow-soft hover-lift cursor-pointer"
         >
           {t("ব্যাগ", "Bag")}
         </Link>
@@ -100,7 +101,11 @@ export default function HomePage() {
 
       <main className="flex-grow w-full max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-section-gap flex flex-col gap-8 md:gap-12 pb-24 md:pb-12">
         {/* Hero Banner */}
-        <section className="relative w-full h-[250px] sm:h-[350px] md:h-[500px] rounded-2xl overflow-hidden shadow-premium flex items-center bg-[#0f172a] hover-lift group">
+        <motion.section 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="relative w-full h-[250px] sm:h-[350px] md:h-[500px] rounded-2xl overflow-hidden shadow-premium flex items-center bg-[#0f172a] hover-lift group">
           {heroSlides.map((slide, index) => (
             <div
               key={index}
@@ -145,10 +150,15 @@ export default function HomePage() {
               </Link>
             </div>
           )}
-        </section>
+        </motion.section>
 
         {/* Featured Products Grid */}
-        <section>
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <div className="flex justify-between items-end mb-6">
             <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background">
               {t("জনপ্রিয় পণ্য", "Popular Products")}
@@ -359,7 +369,7 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-        </section>
+        </motion.section>
       </main>
 
       {/* Footer */}
