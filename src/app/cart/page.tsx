@@ -43,7 +43,7 @@ export default function CartPage() {
       <Header />
 
       {/* Main Content */}
-      <main className="flex-grow w-full max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-section-gap">
+      <main className="flex-grow w-full max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-section-gap pb-40 md:pb-section-gap">
         
         {cart.length === 0 ? (
           /* Empty State */
@@ -90,10 +90,10 @@ export default function CartPage() {
                   return (
                     <div
                       key={item.id}
-                      className="bg-surface-container-lowest rounded-2xl shadow-sm p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 border border-outline-variant/30 relative overflow-hidden group"
+                      className="bg-surface-container-lowest rounded-2xl shadow-sm p-3 md:p-4 flex flex-row items-start sm:items-center gap-3 md:gap-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 border border-outline-variant/30 relative overflow-hidden group"
                     >
                       {/* Product Image */}
-                      <div className="w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] shrink-0 bg-white rounded-xl overflow-hidden border border-outline-variant/30">
+                      <div className="w-[80px] h-[80px] sm:w-[120px] sm:h-[120px] shrink-0 bg-white rounded-xl overflow-hidden border border-outline-variant/30">
                         <img
                           className="w-full !h-full object-cover"
                           src={item.image}
@@ -105,10 +105,10 @@ export default function CartPage() {
                       <div className="flex-grow flex flex-col justify-between h-full w-full">
                         <div className="flex justify-between items-start mb-2 w-full">
                           <div>
-                            <h3 className="text-headline-sm font-headline-sm text-on-surface mb-1">
+                            <h3 className="text-sm md:text-headline-sm font-bold text-on-surface mb-0.5 md:mb-1 line-clamp-2">
                               {t(item.nameBn, item.nameEn)}
                             </h3>
-                            <p className="text-label-md font-label-md text-on-surface-variant">
+                            <p className="text-[11px] md:text-label-md font-medium text-on-surface-variant">
                               {t("প্যাকেজ: ", "Package: ")} {t(item.unitBn, item.unitEn)}
                             </p>
                           </div>
@@ -129,19 +129,19 @@ export default function CartPage() {
                             <button
                               onClick={() => updateQuantity(item.id, item.quantity - 1)}
                               aria-label="Decrease quantity"
-                              className="w-8 h-8 flex items-center justify-center text-on-surface hover:bg-surface-container-high active:bg-surface-variant transition-colors cursor-pointer"
+                              className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center text-on-surface hover:bg-surface-container-high active:bg-surface-variant transition-colors cursor-pointer"
                             >
-                              <Minus className="text-[18px]" />
+                              <Minus className="text-[14px] md:text-[18px]" />
                             </button>
-                            <span className="w-10 text-center text-body-md font-body-md">
+                            <span className="w-6 md:w-10 text-center text-sm md:text-body-md font-bold">
                               {f(item.quantity)}
                             </span>
                             <button
                               onClick={() => updateQuantity(item.id, item.quantity + 1)}
                               aria-label="Increase quantity"
-                              className="w-8 h-8 flex items-center justify-center text-on-surface hover:bg-surface-container-high active:bg-surface-variant transition-colors cursor-pointer"
+                              className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center text-on-surface hover:bg-surface-container-high active:bg-surface-variant transition-colors cursor-pointer"
                             >
-                              <Plus className="text-[18px]" />
+                              <Plus className="text-[14px] md:text-[18px]" />
                             </button>
                           </div>
 
@@ -152,7 +152,7 @@ export default function CartPage() {
                                 ৳{f(itemOriginalTotal)}
                               </div>
                             )}
-                            <div className="text-headline-md font-headline-md text-primary font-bold">
+                            <div className="text-sm md:text-headline-md text-primary font-bold">
                               ৳{f(itemTotal)}
                             </div>
                             <div className="text-[10px] text-on-surface-variant mt-0.5">
@@ -210,7 +210,7 @@ export default function CartPage() {
                   {/* Action Checkout button */}
                   <Link
                     href="/checkout"
-                    className="w-full text-on-primary bg-primary rounded-full py-3 px-4 font-headline-sm text-headline-sm shadow-sm hover:shadow-md hover:bg-primary-dark transition-all duration-200 active:scale-95 flex items-center justify-center gap-2 bg-gradient-green cursor-pointer"
+                    className="hidden md:flex w-full text-on-primary bg-primary rounded-full py-3 px-4 font-headline-sm text-headline-sm shadow-sm hover:shadow-md hover:bg-primary-dark transition-all duration-200 active:scale-95 items-center justify-center gap-2 bg-gradient-green cursor-pointer"
                   >
                     {t("অর্ডার নিশ্চিত করুন", "Proceed to Checkout")}
                     <ArrowRight className="text-[20px]" />
@@ -223,12 +223,26 @@ export default function CartPage() {
                 </div>
               </div>
             </div>
-          </>
-        )}
-      </main>
 
-      {/* Footer */}
+            {/* Sticky Mobile Checkout Bar */}
+            <div className="md:hidden fixed bottom-[60px] left-0 right-0 bg-surface border-t border-outline-variant/30 p-4 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] z-[90] pb-[calc(env(safe-area-inset-bottom)+16px)]">
+              <div className="flex justify-between items-center mb-3">
+                <span className="font-bold text-sm text-on-surface">{t("সর্বমোট", "Total")}</span>
+                <span className="font-bold text-primary text-xl">৳{f(grandTotal)}</span>
+              </div>
+              <Link
+                href="/checkout"
+                className="w-full text-white bg-gradient-green rounded-xl py-3.5 px-4 font-bold text-sm shadow-md hover:shadow-lg transition-transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                {t("অর্ডার কনফার্ম করুন", "Proceed to Checkout")}
+                <ArrowRight className="text-[18px]" />
+              </Link>
+            </div>
+
+          </>
+        )}      </main>
       <Footer />
     </div>
   );
 }
+
