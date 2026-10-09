@@ -7,7 +7,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useApp, PackSize } from "@/context/AppContext";
 import { insforge } from "@/lib/insforge";
-import { ArrowLeft, Minus, Plus, ShoppingCart, ShoppingBasket } from 'lucide-react';
+import { ArrowLeft, Minus, Plus, ShoppingCart, ShoppingBasket, X } from 'lucide-react';
 
 export default function ProductDetailPage() {
   const { slug } = useParams();
@@ -15,6 +15,7 @@ export default function ProductDetailPage() {
   const { t, addToCart, language } = useApp();
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState<PackSize | undefined>(undefined);
+  const [fullScreenImage, setFullScreenImage] = useState<string | null>(null);
 
   const [product, setProduct] = useState<any>(null);
   const [similarProducts, setSimilarProducts] = useState<any[]>([]);
@@ -126,76 +127,100 @@ export default function ProductDetailPage() {
   const decrementQty = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
 
   return (
-    <div className="bg-background text-on-background min-h-screen flex flex-col">
+    <div className="bg-background text-on-background min-h-[100dvh] flex flex-col">
+      {/* Full Screen Image Modal */}
+      {fullScreenImage && (
+        <div className="fixed inset-0 z-[100000] bg-black/95 flex flex-col items-center justify-center p-4 backdrop-blur-sm">
+          <button 
+            onClick={() => setFullScreenImage(null)}
+            className="absolute top-safe-4 left-4 md:top-8 md:left-8 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors z-10 btn-press"
+          >
+            <ArrowLeft className="text-2xl" />
+          </button>
+          <img 
+            src={fullScreenImage} 
+            alt="Fullscreen" 
+            className="w-full max-w-3xl h-auto max-h-[85vh] object-contain transition-transform"
+          />
+        </div>
+      )}
+
       {/* TopNavBar */}
       <Header />
 
       {/* Main Content Container */}
-      <main className="flex-grow w-full max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-8">
-        <div className="mb-6">
-          <Link href="/shop" className="text-sm text-primary hover:underline inline-flex items-center gap-1">
+      <main className="flex-grow w-full max-w-[1280px] mx-auto px-4 md:px-margin-desktop py-4 md:py-8">
+        <div className="mb-4 md:mb-6">
+          <Link href="/shop" className="text-sm font-bold text-primary hover:underline inline-flex items-center gap-1">
             <ArrowLeft className="text-[16px]" />
-            {t("শপে ফিরে যান", "Back to Shop")}
+            {t("ফিরে যান", "Back to Shop")}
           </Link>
         </div>
 
         {/* Product Details Section */}
-        <div className="bg-surface-container-lowest rounded-2xl p-6 border border-surface-variant/40 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div className="bg-surface-container-lowest rounded-2xl md:rounded-3xl p-4 md:p-8 border border-surface-variant/40 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 mb-8">
           
-          {/* Image side */}
-          <div className="aspect-square rounded-xl overflow-hidden bg-white border border-outline-variant/30 relative">
+          {/* Image side - Compact on mobile */}
+          <div 
+            onClick={() => setFullScreenImage(product.image)}
+            className="w-[65%] max-w-[260px] md:max-w-none md:w-full mx-auto aspect-square rounded-2xl md:rounded-3xl overflow-hidden bg-white border border-outline-variant/30 relative cursor-zoom-in group shadow-sm"
+          >
             {hasDiscount && (
-              <div className="absolute top-4 left-4 bg-gradient-orange text-white px-3 py-1.5 rounded-lg font-micro text-label-sm font-bold z-10 shadow-sm">
+              <div className="absolute top-2 left-2 md:top-4 md:left-4 bg-gradient-orange text-white px-2 py-1 md:px-3 md:py-1.5 rounded-lg font-micro text-[11px] md:text-label-sm font-bold z-10 shadow-sm">
                 {language === "bn"
                   ? `${activeDiscountPercent?.toLocaleString("bn-BD")}% ছাড়`
                   : `${activeDiscountPercent}% OFF`}
               </div>
             )}
             <img
-              className="w-full !h-full object-cover"
+              className="w-full !h-full object-cover transition-transform duration-500 group-hover:scale-105"
               src={product.image}
               alt={t(product.nameBn, product.nameEn)}
             />
+            {/* Expand Icon Hint */}
+            <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 bg-black/40 backdrop-blur-md text-white p-2 rounded-full opacity-80 md:opacity-0 group-hover:opacity-100 transition-opacity">
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
+            </div>
           </div>
 
           {/* Details side */}
           <div className="flex flex-col">
-            <h1 className="font-tiro text-3xl font-bold text-on-surface mb-2">
+            <h1 className="font-tiro text-2xl md:text-4xl font-bold text-on-surface mb-1 md:mb-3 leading-tight">
               {t(product.nameBn, product.nameEn)}
             </h1>
 
             {/* Default or size unit display */}
-            <p className="text-label-md text-muted font-bold mb-4">
-              {t("প্যাকেজ সাইজ: ", "Unit: ")} {selectedSize ? t(selectedSize.nameBn, selectedSize.nameEn) : t(product.unitBn, product.unitEn)}
+            <p className="text-sm md:text-label-lg text-muted font-bold mb-3 md:mb-4">
+              {t("ইউনিট: ", "Unit: ")} {selectedSize ? t(selectedSize.nameBn, selectedSize.nameEn) : t(product.unitBn, product.unitEn)}
             </p>
 
-            {/* Price Display: Discounted Price and original struck through if discount exists */}
-            <div className="flex flex-col gap-1 mb-6">
-              <div className="font-headline-lg text-3xl font-bold text-primary flex items-baseline gap-1">
-                <span>৳</span>
+            {/* Price Display */}
+            <div className="flex flex-col gap-0 md:gap-1 mb-5 md:mb-8">
+              <div className="font-headline-lg text-3xl md:text-4xl font-bold text-primary flex items-baseline gap-1">
+                <span className="text-2xl md:text-3xl">৳</span>
                 <span>{formattedPrice}</span>
               </div>
               {hasDiscount && (
-                <div className="text-lg text-muted line-through">
+                <div className="text-base md:text-lg text-muted line-through font-medium">
                   ৳{formattedOriginalPrice}
                 </div>
               )}
             </div>
 
-            {/* Pack Size Selector Buttons (Dynamic based on product data) */}
+            {/* Pack Size Selector Buttons */}
             {product.packSizes && product.packSizes.length > 0 && (
-              <div className="mb-6">
-                <span className="block text-sm font-bold text-on-surface mb-2">
+              <div className="mb-5 md:mb-8">
+                <span className="block text-xs md:text-sm font-bold text-on-surface mb-2.5">
                   {t("প্যাকেজ নির্বাচন করুন:", "Select Package:")}
                 </span>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 md:gap-3">
                   {product.packSizes.map((size: any, idx: number) => {
                     const isSelected = selectedSize?.nameEn === size.nameEn;
                     return (
                       <button
                         key={idx}
                         onClick={() => setSelectedSize(size)}
-                        className={`px-4 py-2 rounded-xl text-xs font-bold border transition-all btn-press cursor-pointer ${
+                        className={`px-3 py-1.5 md:px-5 md:py-2.5 rounded-xl text-xs md:text-sm font-bold border transition-all btn-press cursor-pointer ${
                           isSelected
                             ? "bg-primary border-primary text-white shadow-sm"
                             : "bg-surface border-outline-variant text-on-surface-variant hover:bg-surface-container-high"
@@ -209,96 +234,113 @@ export default function ProductDetailPage() {
               </div>
             )}
 
-            {/* Description */}
-            <div className="border-t border-b border-surface-variant/50 py-4 mb-6">
-              <h3 className="font-headline-sm font-bold text-on-surface mb-2">
-                {t("পণ্যের বিবরণ", "Product Details")}
-              </h3>
-              <p className="text-sm text-on-surface-variant leading-relaxed">
-                {t(
-                  product.descriptionBn || "তাজা ও স্বাস্থ্যসম্মত পণ্য। সরাসরি খামার থেকে সংগৃহীত।",
-                  product.descriptionEn || "Fresh and healthy product. Sourced directly from local farms."
-                )}
-              </p>
-            </div>
-
-            {/* Quantity Controls */}
-            <div className="flex items-center gap-4 mb-6">
-              <span className="text-sm font-bold text-on-surface">{t("পরিমাণ:", "Quantity:")}</span>
-              <div className="flex items-center border border-outline-variant rounded-full bg-surface">
+            {/* Quantity Controls - Compact */}
+            <div className="flex items-center gap-4 mb-6 md:mb-8 bg-surface-container-lowest md:bg-transparent rounded-2xl md:p-0">
+              <span className="text-sm font-bold text-on-surface hidden md:block">{t("পরিমাণ:", "Quantity:")}</span>
+              <div className="flex items-center border-2 border-outline-variant/30 rounded-full bg-surface w-[140px] md:w-auto justify-between p-0.5">
                 <button
                   onClick={decrementQty}
-                  className="w-10 h-10 flex items-center justify-center text-on-surface hover:text-primary transition-colors btn-press cursor-pointer"
+                  className="w-10 h-10 md:w-11 md:h-11 flex items-center justify-center text-on-surface hover:text-primary hover:bg-primary/5 transition-colors btn-press cursor-pointer rounded-full"
                 >
                   <Minus className="text-[18px]" />
                 </button>
-                <span className="w-12 text-center text-sm font-bold">
+                <span className="w-8 text-center text-base md:text-lg font-bold">
                   {language === "bn" ? quantity.toLocaleString("bn-BD") : quantity}
                 </span>
                 <button
                   onClick={incrementQty}
-                  className="w-10 h-10 flex items-center justify-center text-on-surface hover:text-primary transition-colors btn-press cursor-pointer"
+                  className="w-10 h-10 md:w-11 md:h-11 flex items-center justify-center text-on-surface hover:text-primary hover:bg-primary/5 transition-colors btn-press cursor-pointer rounded-full"
                 >
                   <Plus className="text-[18px]" />
                 </button>
               </div>
             </div>
 
-            {/* Add & Buy Actions */}
-            <div className="flex flex-col sm:flex-row gap-4 mt-auto">
+            {/* Add & Buy Actions (Moved up for mobile visibility) */}
+            <div className="flex flex-row gap-3 mb-6 md:mb-8">
               <button
                 onClick={handleAddToCart}
-                className="flex-grow bg-surface border border-primary text-primary font-bold py-3.5 px-6 rounded-full btn-press transition-colors hover:bg-primary/5 cursor-pointer flex items-center justify-center gap-2"
+                className="flex-1 bg-surface border-2 border-primary text-primary font-bold py-3 md:py-4 px-2 md:px-6 rounded-xl md:rounded-full btn-press transition-colors hover:bg-primary/5 cursor-pointer flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-base"
               >
-                <ShoppingCart className="text-[20px]" />
-                {t("কার্টে যোগ করুন", "Add to Cart")}
+                <ShoppingCart className="text-[18px] md:text-[20px]" />
+                <span>{t("কার্টে যোগ", "Add to Cart")}</span>
               </button>
               <button
                 onClick={handleBuyNow}
-                className="flex-grow bg-gradient-green text-white font-bold py-3.5 px-6 rounded-full btn-press shadow-md hover:shadow-lg transition-transform cursor-pointer flex items-center justify-center gap-2"
+                className="flex-1 bg-gradient-green text-white font-bold py-3 md:py-4 px-2 md:px-6 rounded-xl md:rounded-full btn-press shadow-md hover:shadow-lg transition-transform cursor-pointer flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-base"
               >
-                <ShoppingBasket className="text-[20px]" />
-                {t("সরাসরি কিনুন", "Buy Now")}
+                <ShoppingBasket className="text-[18px] md:text-[20px]" />
+                <span>{t("এখনই কিনুন", "Buy Now")}</span>
               </button>
+            </div>
+
+            {/* Description (Moved below actions) */}
+            <div className="border-t border-surface-variant/50 pt-5 mt-auto">
+              <h3 className="font-headline-sm text-sm md:text-base font-bold text-on-surface mb-2.5">
+                {t("পণ্যের বিবরণ", "Product Details")}
+              </h3>
+              <p className="text-xs md:text-sm text-on-surface-variant leading-relaxed">
+                {t(
+                  product.descriptionBn || "সতেজ এবং স্বাস্থ্যকর পণ্য। সরাসরি স্থানীয় খামার থেকে সংগৃহীত।",
+                  product.descriptionEn || "Fresh and healthy product. Sourced directly from local farms."
+                )}
+              </p>
             </div>
           </div>
         </div>
 
         {/* Similar Products */}
         {similarProducts.length > 0 && (
-          <section className="mt-12">
-            <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background mb-6">
-              {t("অনুরূপ কিছু পণ্য", "Related Products")}
+          <section className="mt-8 md:mt-16">
+            <h2 className="font-headline-sm text-lg md:text-headline-lg font-bold text-on-background mb-4 md:mb-8">
+              {t("সম্পর্কিত পণ্যসমূহ", "Related Products")}
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
               {similarProducts.map((p) => {
                 const pPrice = p.discountPrice !== undefined ? p.discountPrice : p.price;
                 const pFormattedPrice = language === "bn" ? pPrice.toLocaleString("bn-BD") : pPrice;
                 return (
                   <div
                     key={p.id}
-                    className="bg-surface-container-lowest rounded-2xl p-4 shadow-sm border border-surface-variant hover-lift flex flex-col h-full relative"
+                    className="bg-surface-container-lowest rounded-2xl p-3 md:p-4 shadow-sm border border-surface-variant hover-lift flex flex-col h-full relative group"
                   >
-                    <Link href={`/product/${p.slug}`} className="aspect-square w-full rounded-xl overflow-hidden bg-surface-container mb-3 relative block">
-                      <img className="w-full h-full object-cover" src={p.image} alt={p.nameEn} />
+                    {p.discountPercent && (
+                      <div className="absolute top-2 left-2 bg-gradient-orange text-white px-2 py-1 rounded-md font-micro text-[10px] font-bold z-10">
+                        {language === "bn"
+                          ? `${p.discountPercent.toLocaleString("bn-BD")}% ছাড়`
+                          : `${p.discountPercent}% OFF`}
+                      </div>
+                    )}
+                    <Link
+                      href={`/product/${p.slug}`}
+                      className="aspect-square w-full rounded-xl overflow-hidden bg-white mb-3 relative block group/img"
+                    >
+                      <img
+                        className="w-full !h-full object-cover card-zoom-image transition-transform duration-700 group-hover/img:scale-110"
+                        src={p.image}
+                        alt={t(p.nameBn, p.nameEn)}
+                      />
                     </Link>
-                    <h3 className="font-headline-sm text-headline-sm text-on-surface mb-1 line-clamp-2">
-                      <Link href={`/product/${p.slug}`} className="hover:text-primary transition-colors">
+                    <Link href={`/product/${p.slug}`} className="flex-grow">
+                      <h3 className="font-bold text-sm md:text-base text-on-surface line-clamp-2 mb-1 hover:text-primary transition-colors">
                         {t(p.nameBn, p.nameEn)}
-                      </Link>
-                    </h3>
-                    <p className="font-label-sm text-label-sm text-muted mb-2">
-                      {t(p.unitBn, p.unitEn)}
-                    </p>
+                      </h3>
+                      <p className="text-[11px] md:text-xs text-muted mb-2 font-medium">
+                        {t(p.unitBn, p.unitEn)}
+                      </p>
+                    </Link>
                     <div className="mt-auto flex items-center justify-between">
-                      <div className="font-headline-md text-headline-md text-primary">
+                      <div className="font-bold text-sm md:text-lg text-primary">
                         ৳{pFormattedPrice}
                       </div>
                       <button
-                        onClick={() => addToCart(p, 1)}
-                        className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center btn-press cursor-pointer hover:bg-primary-dark transition-colors"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          addToCart(p, 1);
+                        }}
+                        className="bg-surface border border-primary text-primary hover:bg-primary hover:text-white transition-colors w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center btn-press shadow-soft"
                       >
-                        <Plus className="text-[18px]" />
+                        <Plus className="text-[16px] md:text-[20px]" />
                       </button>
                     </div>
                   </div>
@@ -309,9 +351,6 @@ export default function ProductDetailPage() {
         )}
       </main>
 
-
-
-      {/* Footer */}
       <Footer />
     </div>
   );
