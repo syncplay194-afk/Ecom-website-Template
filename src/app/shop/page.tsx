@@ -8,7 +8,7 @@ import { Footer } from "@/components/Footer";
 import { useApp } from "@/context/AppContext";
 import { Product } from "@/context/AppContext";
 import { insforge } from "@/lib/insforge";
-import { SearchX, Plus } from 'lucide-react';
+import { SearchX, Plus, ArrowLeft, SlidersHorizontal, X } from 'lucide-react';
 
 function ShopContent() {
   const { t, addToCart, language } = useApp();
@@ -27,6 +27,8 @@ function ShopContent() {
     bag: false,
   });
   const [sortBy, setSortBy] = useState<string>("popular");
+  const [showMobileFilter, setShowMobileFilter] = useState(false);
+  const [popupCategoryKey, setPopupCategoryKey] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -124,16 +126,8 @@ function ShopContent() {
     });
   };
 
-  const handleSeeAll = (filterKeys: string[]) => {
-    setSelectedCategories(() => {
-      return {
-        all: false,
-        makeup: filterKeys.includes("makeup"),
-        juwelary: filterKeys.includes("juwelary"),
-        cosmetics: filterKeys.includes("cosmetics"),
-        bag: filterKeys.includes("bag"),
-      };
-    });
+  const handleSeeAll = (groupKey: string) => {
+    setPopupCategoryKey(groupKey);
   };
 
   // Filter & Sort Logic
@@ -195,263 +189,269 @@ function ShopContent() {
   );
 
   return (
-    <div className="bg-background text-on-background min-h-screen flex flex-col">
+    <div className="bg-background text-on-background min-h-[100dvh] flex flex-col">
       {/* TopNavBar */}
       <Header />
 
-      {/* Main Content Area */}
-      {loading ? (
-        <div className="flex-grow w-full max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-section-gap flex flex-col md:flex-row gap-6 mt-4 mb-16 md:mb-0">
-          {/* Sidebar Skeleton */}
-          <aside className="hidden md:block w-64 flex-shrink-0 bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-surface-variant/40 h-[400px] animate-pulse"></aside>
-          
-          {/* Products Grid Skeleton */}
-          <div className="flex-grow w-full space-y-10">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
-              {[...Array(8)].map((_, i) => (
-                <div key={i} className="bg-surface-container-lowest rounded-2xl shadow-soft border border-surface-variant overflow-hidden h-[280px] flex flex-col animate-pulse">
-                  <div className="aspect-square bg-gray-200 w-full"></div>
-                  <div className="p-3.5 flex flex-col gap-2">
-                    <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                    <div className="h-3 bg-gray-200 rounded w-1/2"></div>
-                    <div className="h-5 bg-gray-200 rounded w-1/3 mt-2"></div>
-                  </div>
-                </div>
-              ))}
-            </div>
+      {/* Sticky Mobile Category Pills */}
+      <div className="md:hidden w-full bg-surface-container-lowest shadow-sm border-b border-surface-variant/40 sticky top-[56px] z-40">
+        <div className="w-full overflow-hidden">
+          <div className="w-full py-2 px-4 overflow-x-auto overflow-y-hidden whitespace-nowrap hide-scrollbar overscroll-x-contain flex gap-2 snap-x snap-mandatory pb-8 -mb-6">
+            <Link href="/shop?cat=all" className={`snap-center inline-flex items-center px-4 py-1.5 rounded-full text-[12px] font-bold border transition-colors ${selectedCategories.all ? 'bg-primary text-white border-primary shadow-sm' : 'bg-surface border-outline-variant text-on-surface-variant'}`}>
+              {t("সব", "All")}
+            </Link>
+            <Link href="/shop?cat=makeup" className={`snap-center inline-flex items-center px-4 py-1.5 rounded-full text-[12px] font-bold border transition-colors ${selectedCategories.makeup ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white border-transparent shadow-sm' : 'bg-surface border-outline-variant text-on-surface-variant'}`}>
+              {t("মেকআপ", "Makeup")}
+            </Link>
+            <Link href="/shop?cat=juwelary" className={`snap-center inline-flex items-center px-4 py-1.5 rounded-full text-[12px] font-bold border transition-colors ${selectedCategories.juwelary ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white border-transparent shadow-sm' : 'bg-surface border-outline-variant text-on-surface-variant'}`}>
+              {t("গহনা", "Juwelary")}
+            </Link>
+            <Link href="/shop?cat=cosmetics" className={`snap-center inline-flex items-center px-4 py-1.5 rounded-full text-[12px] font-bold border transition-colors ${selectedCategories.cosmetics ? 'bg-gradient-to-r from-purple-500 to-indigo-500 text-white border-transparent shadow-sm' : 'bg-surface border-outline-variant text-on-surface-variant'}`}>
+              {t("কসমেটিকস", "Cosmetics")}
+            </Link>
+            <Link href="/shop?cat=bag" className={`snap-center inline-flex items-center px-4 py-1.5 rounded-full text-[12px] font-bold border transition-colors ${selectedCategories.bag ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white border-transparent shadow-sm' : 'bg-surface border-outline-variant text-on-surface-variant'}`}>
+              {t("ব্যাগ", "Bag")}
+            </Link>
           </div>
         </div>
-      ) : (
-      <main className="flex-grow w-full max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-section-gap flex flex-col md:flex-row gap-6 mt-4 mb-16 md:mb-0">
-        {/* Sidebar Filters */}
-        <aside className="hidden md:block w-64 flex-shrink-0 bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-surface-variant/40 self-start sticky top-24">
-          <h2 className="font-headline-sm text-headline-sm text-on-background mb-4 pb-2 border-b border-surface-variant">
-            {t("ফিল্টার করুন", "Filter Products")}
-          </h2>
+      </div>
 
-          {/* Price Range */}
-          <div className="mb-6">
-            <h3 className="font-label-md text-label-md text-on-surface font-bold mb-3">
-              {t("মূল্য পরিসীমা", "Price Range")}
-            </h3>
-            <input
-              type="range"
-              min="0"
-              max="5000"
-              step="50"
-              value={maxPrice}
-              onChange={(e) => setMaxPrice(parseInt(e.target.value))}
-              className="w-full accent-primary h-2 bg-surface-container-high rounded-full appearance-none cursor-pointer"
-            />
-            <div className="flex justify-between text-body-md text-on-surface-variant mt-2 font-semibold">
-              <span>৳ ০</span>
-              <span className="text-primary">
-                ৳ {language === "bn" ? maxPrice.toLocaleString("bn-BD") : maxPrice}
-              </span>
-              <span>৳ ৫,০০০</span>
+      {/* Mobile Price & Category Filter Modal */}
+      {showMobileFilter && (
+        <div className="fixed inset-0 z-[100] bg-black/50 flex flex-col justify-end">
+          <div className="bg-surface w-full rounded-t-3xl p-5 animate-slide-in-up">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="font-bold text-lg">{t("ফিল্টার", "Filter")}</h2>
+              <button onClick={() => setShowMobileFilter(false)} className="p-2 hover:bg-surface-variant rounded-full">
+                <X />
+              </button>
             </div>
-          </div>
-
-          {/* Categories */}
-          <div className="mb-6">
-            <h3 className="font-label-md text-label-md text-on-surface font-bold mb-3">
-              {t("ক্যাটাগরি", "Category")}
-            </h3>
-            <div className="space-y-3">
-              {/* ALL checkbox */}
-              <label className="flex items-center gap-2 cursor-pointer group">
-                <input
-                  type="checkbox"
-                  checked={selectedCategories.all}
-                  onChange={() => handleCategoryCheckboxChange("all")}
-                  className="form-checkbox text-primary rounded border-outline-variant focus:ring-primary w-4 h-4 cursor-pointer"
-                />
-                <span className="font-body-md text-body-md text-on-surface-variant group-hover:text-primary transition-colors font-bold">
-                  {t("সব পণ্য (All)", "All Products")}
-                </span>
-              </label>
-
-              <label className="flex items-center gap-2 cursor-pointer group">
-                <input
-                  type="checkbox"
-                  checked={selectedCategories.makeup}
-                  onChange={() => handleCategoryCheckboxChange("makeup")}
-                  className="form-checkbox text-primary rounded border-outline-variant focus:ring-primary w-4 h-4 cursor-pointer"
-                />
-                <span className="font-body-md text-body-md text-on-surface-variant group-hover:text-primary transition-colors">
-                  {t("মেকআপ", "Makeup")}
-                </span>
-              </label>
-
-              <label className="flex items-center gap-2 cursor-pointer group">
-                <input
-                  type="checkbox"
-                  checked={selectedCategories.juwelary}
-                  onChange={() => handleCategoryCheckboxChange("juwelary")}
-                  className="form-checkbox text-primary rounded border-outline-variant focus:ring-primary w-4 h-4 cursor-pointer"
-                />
-                <span className="font-body-md text-body-md text-on-surface-variant group-hover:text-primary transition-colors">
-                  {t("গহনা", "Juwelary")}
-                </span>
-              </label>
-
-              <label className="flex items-center gap-2 cursor-pointer group">
-                <input
-                  type="checkbox"
-                  checked={selectedCategories.cosmetics}
-                  onChange={() => handleCategoryCheckboxChange("cosmetics")}
-                  className="form-checkbox text-primary rounded border-outline-variant focus:ring-primary w-4 h-4 cursor-pointer"
-                />
-                <span className="font-body-md text-body-md text-on-surface-variant group-hover:text-primary transition-colors">
-                  {t("প্রসাধন", "cosmetics")}
-                </span>
-              </label>
-
-              <label className="flex items-center gap-2 cursor-pointer group">
-                <input
-                  type="checkbox"
-                  checked={selectedCategories.bag}
-                  onChange={() => handleCategoryCheckboxChange("bag")}
-                  className="form-checkbox text-primary rounded border-outline-variant focus:ring-primary w-4 h-4 cursor-pointer"
-                />
-                <span className="font-body-md text-body-md text-on-surface-variant group-hover:text-primary transition-colors">
-                  {t("ব্যাগ", "Bag")}
-                </span>
-              </label>
-            </div>
-          </div>
-        </aside>
-
-        {/* Product Grid Area */}
-        <div className="flex-grow w-full">
-          {/* Top Filter Summary Bar */}
-          <div className="flex flex-col sm:flex-row justify-between items-center bg-surface-container-lowest p-3 md:p-4 rounded-xl shadow-sm border border-surface-variant mb-6 gap-4">
-            <p className="font-body-md text-body-md text-on-surface-variant font-semibold">
-              {language === "bn"
-                ? `${filteredProducts.length.toLocaleString("bn-BD")}টি পণ্য পাওয়া গেছে`
-                : `${filteredProducts.length} products found`}
-            </p>
-
-            {/* Sorting Dropdown */}
-            <div className="flex items-center gap-2 w-full sm:w-auto">
-              <label className="font-label-md text-label-md text-on-surface whitespace-nowrap" htmlFor="sort">
-                {t("সাজান:", "Sort by:")}
-              </label>
-              <select
-                id="sort"
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="form-select w-full sm:w-auto font-body-md text-body-md text-on-surface bg-surface border border-outline-variant rounded-lg focus:border-primary focus:ring focus:ring-primary/20 py-1.5 pl-3 pr-8"
-              >
-                <option value="popular">{t("সবচেয়ে জনপ্রিয়", "Most Popular")}</option>
-                <option value="newest">{t("নতুন পণ্য", "Newest")}</option>
-                <option value="price-low">{t("মূল্য: কম থেকে বেশি", "Price: Low to High")}</option>
-                <option value="price-high">{t("মূল্য: বেশি থেকে কম", "Price: High to Low")}</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Grouped Product Grid Sections */}
-          <div className="space-y-10">
-            {activeGroups.length === 0 ? (
-              <div className="bg-surface-container-lowest rounded-2xl p-12 text-center border border-surface-variant/40 shadow-sm">
-                <SearchX className="text-[48px] text-muted mb-2" />
-                <p className="text-on-surface-variant font-bold">
-                  {t("কোনো পণ্য খুঁজে পাওয়া যায়নি!", "No products match the selected filters.")}
-                </p>
+            
+            {/* Price Range */}
+            <div className="mb-6">
+              <h3 className="text-sm font-bold mb-3">{t("মূল্য সীমা", "Price Range")}</h3>
+              <input
+                type="range"
+                min="0"
+                max="5000"
+                step="50"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+                className="w-full accent-primary h-2 bg-surface-container-high rounded-full appearance-none"
+              />
+              <div className="flex justify-between text-sm font-bold mt-2">
+                <span>৳ ০</span>
+                <span className="text-primary">৳ {language === "bn" ? maxPrice.toLocaleString("bn-BD") : maxPrice}</span>
+                <span>৳ ৫,০০০</span>
               </div>
-            ) : (
-              activeGroups.map(([groupKey, group]) => (
-                <section key={groupKey} className="border-b border-surface-variant/30 pb-8 last:border-0">
-                  <div className="flex justify-between items-center mb-6">
-                    <h2 className="font-headline-sm text-headline-sm text-on-background font-bold border-l-4 border-primary pl-3">
-                      {t(group.titleBn, group.titleEn)}
-                    </h2>
-                    {/* See All (সব দেখুন) for this section */}
-                    <button
-                      onClick={() => handleSeeAll(group.filterKeys)}
-                      className="text-primary font-label-md text-label-md hover:underline cursor-pointer btn-press font-semibold"
-                    >
-                      {t("সব দেখুন", "See All")}
-                    </button>
-                  </div>
+            </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
-                    {group.items.map((product) => {
-                      const activePrice = product.discountPrice !== undefined ? product.discountPrice : (product.price || 0);
-                      const hasDiscount = product.discountPrice !== undefined;
-                      const formattedPrice = language === "bn" ? activePrice.toLocaleString("bn-BD") : activePrice;
-
-                      return (
-                        <div
-                          key={product.id}
-                          className="bg-surface-container-lowest rounded-2xl shadow-soft border border-surface-variant overflow-hidden group hover-lift flex flex-col h-full relative"
-                        >
-                          {/* Discount tag */}
-                          {hasDiscount && (
-                            <div className="absolute top-2 left-2 z-10 bg-gradient-orange text-white text-[10px] px-2 py-0.5 rounded-full font-bold">
-                              {language === "bn"
-                                ? `-${product.discountPercent?.toLocaleString("bn-BD")}%`
-                                : `-${product.discountPercent}%`}
-                            </div>
-                          )}
-
-                          {/* Image */}
-                          <Link
-                            href={`/product/${product.slug}`}
-                            className="aspect-square bg-white overflow-hidden block relative"
-                          >
-                            <img
-                              className="w-full !h-full object-cover card-zoom-image"
-                              src={product.image}
-                              alt={t(product.nameBn, product.nameEn)}
-                            />
-                          </Link>
-
-                          {/* Details */}
-                          <div className="p-3.5 flex flex-col flex-grow">
-                            <h3 className="font-label-md text-label-md text-on-surface mb-1 hover:text-primary transition-colors line-clamp-1">
-                              <Link href={`/product/${product.slug}`}>{t(product.nameBn, product.nameEn)}</Link>
-                            </h3>
-                            <p className="text-xs text-muted mb-3">{t(product.unitBn, product.unitEn)}</p>
-                            <div className="mt-auto flex justify-between items-center">
-                              <div className="flex flex-col">
-                                <span className="font-headline-sm text-headline-sm text-primary font-bold">
-                                  ৳ {formattedPrice}
-                                </span>
-                                {hasDiscount && (
-                                  <span className="text-xs text-outline-variant line-through mt-0.5">
-                                    ৳ {language === "bn" ? product.price.toLocaleString("bn-BD") : product.price}
-                                  </span>
-                                )}
-                              </div>
-                              <button
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  addToCart(product, 1);
-                                }}
-                                className="bg-gradient-to-br from-primary to-[#008C44] text-white w-8 h-8 rounded-full flex items-center justify-center btn-press shadow-soft hover-lift cursor-pointer"
-                                title={t("কার্টে যোগ করুন", "Add to Cart")}
-                              >
-                                <Plus className="text-[16px]" />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </section>
-              ))
-            )}
+            <button onClick={() => setShowMobileFilter(false)} className="w-full bg-primary text-white font-bold py-3 rounded-full mt-4">
+              {t("প্রয়োগ করুন", "Apply")}
+            </button>
           </div>
         </div>
-      </main>
       )}
 
+      {/* Fullscreen Popup Modal for "See All" */}
+      {popupCategoryKey && (
+        <div className="fixed inset-0 z-[110] bg-background overflow-y-auto flex flex-col">
+          <div className="sticky top-0 bg-surface shadow-sm p-4 flex items-center gap-3 z-10">
+            <button onClick={() => setPopupCategoryKey(null)} className="p-2 -ml-2 rounded-full hover:bg-surface-variant active:scale-95 transition-all">
+              <ArrowLeft />
+            </button>
+            <h1 className="font-headline-sm text-lg font-bold">
+              {t(groupedProducts[popupCategoryKey].titleBn, groupedProducts[popupCategoryKey].titleEn)}
+            </h1>
+          </div>
+          <div className="p-2 md:p-4 pb-20">
+            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-6">
+              {groupedProducts[popupCategoryKey].items.map((product) => {
+                const activePrice = product.discountPrice !== undefined ? product.discountPrice : (product.price || 0);
+                const hasDiscount = product.discountPrice !== undefined;
+                const formattedPrice = language === "bn" ? activePrice.toLocaleString("bn-BD") : activePrice;
+                const formattedOriginal = language === "bn" ? (product.price || 0).toLocaleString("bn-BD") : (product.price || 0);
 
+                return (
+                  <div key={product.id} className="w-full bg-white/80 backdrop-blur-md rounded-xl p-2 md:p-4 shadow-sm border border-surface-variant flex flex-col h-full relative group">
+                    {hasDiscount && (
+                      <div className="absolute top-1 left-1 bg-gradient-orange text-white px-1.5 py-0.5 rounded font-micro text-[9px] font-bold z-10">
+                        {language === "bn" ? `${product.discountPercent?.toLocaleString("bn-BD")}% ছাড়` : `${product.discountPercent}% OFF`}
+                      </div>
+                    )}
+                    <Link href={`/product/${product.slug}`} className="aspect-square w-full rounded-lg overflow-hidden bg-white mb-2 relative block">
+                      <img className="w-full !h-full object-cover" src={product.image} alt={t(product.nameBn, product.nameEn)} />
+                    </Link>
+                    <h3 className="font-bold text-[11px] md:text-sm text-on-surface line-clamp-2 mb-1 leading-tight">
+                      <Link href={`/product/${product.slug}`}>{t(product.nameBn, product.nameEn)}</Link>
+                    </h3>
+                    <div className="mt-auto flex items-center justify-between pt-1">
+                      <div className="flex flex-col">
+                        <div className="text-[13px] md:text-base text-primary font-bold leading-none">৳{formattedPrice}</div>
+                        {hasDiscount && <span className="text-[9px] text-outline-variant line-through mt-0.5">৳{formattedOriginal}</span>}
+                      </div>
+                      <button onClick={(e) => { e.preventDefault(); addToCart(product, 1); }} className="bg-primary text-white w-6 h-6 rounded-full flex items-center justify-center shadow-soft shrink-0">
+                        <Plus className="text-[14px]" />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
 
-      {/* Footer */}
+      {/* Main Content Area */}
+      {loading ? (
+        <div className="flex-grow flex justify-center items-center py-20 font-bold text-primary">Loading...</div>
+      ) : (
+        <div className="flex-grow w-full max-w-[1280px] mx-auto px-2 sm:px-margin-mobile md:px-margin-desktop py-4 md:py-section-gap flex flex-col md:flex-row gap-6 mb-16 md:mb-0">
+          
+          {/* Desktop Sidebar */}
+          <aside className="hidden md:block w-64 flex-shrink-0 bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-surface-variant/40 h-fit sticky top-[100px]">
+            {/* Price Range */}
+            <div className="mb-6">
+              <h3 className="font-label-md text-label-md text-on-surface font-bold mb-3">{t("মূল্য সীমা", "Price Range")}</h3>
+              <input
+                type="range"
+                min="0"
+                max="5000"
+                step="50"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+                className="w-full accent-primary h-2 bg-surface-container-high rounded-full appearance-none cursor-pointer"
+              />
+              <div className="flex justify-between text-sm text-on-surface-variant mt-2 font-bold">
+                <span>৳ ০</span>
+                <span className="text-primary">৳ {language === "bn" ? maxPrice.toLocaleString("bn-BD") : maxPrice}</span>
+                <span>৳ ৫,০০০</span>
+              </div>
+            </div>
+
+            {/* Categories */}
+            <div className="mb-6">
+              <h3 className="font-label-md text-label-md text-on-surface font-bold mb-3">{t("ক্যাটাগরি", "Category")}</h3>
+              <div className="space-y-3">
+                <label className="flex items-center gap-2 cursor-pointer group">
+                  <input type="checkbox" checked={selectedCategories.all} onChange={() => handleCategoryCheckboxChange("all")} className="form-checkbox text-primary rounded border-outline-variant focus:ring-primary w-4 h-4 cursor-pointer" />
+                  <span className="text-sm font-bold text-on-surface-variant group-hover:text-primary transition-colors">{t("সব পণ্য", "All Products")}</span>
+                </label>
+                {/* Checkboxes for desktop */}
+                {['makeup', 'juwelary', 'cosmetics', 'bag'].map(cat => (
+                  <label key={cat} className="flex items-center gap-2 cursor-pointer group">
+                    <input type="checkbox" checked={selectedCategories[cat as keyof typeof selectedCategories]} onChange={() => handleCategoryCheckboxChange(cat as keyof typeof selectedCategories)} className="form-checkbox text-primary rounded border-outline-variant focus:ring-primary w-4 h-4 cursor-pointer" />
+                    <span className="text-sm font-bold text-on-surface-variant group-hover:text-primary transition-colors capitalize">{cat}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </aside>
+
+          {/* Products Column */}
+          <div className="flex-grow w-full space-y-6 md:space-y-10">
+            {/* Header: Found count, Mobile Filter Button, Sort Dropdown */}
+            <div className="flex flex-row justify-between items-center bg-surface-container-lowest p-2 md:p-4 rounded-xl shadow-sm border border-surface-variant/40">
+              <p className="text-xs md:text-sm text-on-surface-variant font-bold hidden sm:block">
+                {language === "bn" ? `${filteredProducts.length.toLocaleString("bn-BD")}টি পণ্য পাওয়া গেছে` : `${filteredProducts.length} products found`}
+              </p>
+              
+              <button 
+                className="md:hidden flex items-center gap-1.5 bg-surface text-primary text-[12px] font-bold border border-primary/50 px-3 py-1.5 rounded-lg active:scale-95 transition-transform"
+                onClick={() => setShowMobileFilter(true)}
+              >
+                <SlidersHorizontal className="w-4 h-4" />
+                {t("ফিল্টার", "Filter")}
+              </button>
+
+              <div className="flex items-center gap-2">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="form-select w-[140px] md:w-auto text-[12px] md:text-sm font-bold text-on-surface bg-surface border border-outline-variant rounded-lg focus:border-primary py-1.5 pl-2 pr-6"
+                >
+                  <option value="popular">{t("জনপ্রিয়", "Popular")}</option>
+                  <option value="newest">{t("নতুন", "Newest")}</option>
+                  <option value="price-low">{t("মূল্য: কম থেকে বেশি", "Price: Low-High")}</option>
+                  <option value="price-high">{t("মূল্য: বেশি থেকে কম", "Price: High-Low")}</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Grouped Product Grid Sections */}
+            <div className="space-y-6 md:space-y-10">
+              {activeGroups.length === 0 ? (
+                <div className="bg-surface-container-lowest rounded-2xl p-12 text-center border border-surface-variant/40 shadow-sm">
+                  <SearchX className="text-[48px] text-muted mb-2 mx-auto" />
+                  <p className="text-on-surface-variant font-bold">
+                    {t("কোনো পণ্য পাওয়া যায়নি।", "No products match.")}
+                  </p>
+                </div>
+              ) : (
+                activeGroups.map(([groupKey, group]) => {
+                  // Only slice to 6 items if "All" is selected. If they explicitly selected a category, show all items.
+                  const isGroupedView = selectedCategories.all;
+                  const displayItems = isGroupedView ? group.items.slice(0, 6) : group.items;
+                  const hasMore = isGroupedView && group.items.length > 6;
+
+                  return (
+                    <section key={groupKey} className="border-b border-surface-variant/30 pb-6 md:pb-8 last:border-0">
+                      <div className="flex justify-between items-center mb-4 md:mb-6">
+                        <h2 className="text-base md:text-headline-sm text-on-background font-bold border-l-4 border-primary pl-2 md:pl-3 leading-none">
+                          {t(group.titleBn, group.titleEn)}
+                        </h2>
+                        {isGroupedView && (
+                          <button
+                            onClick={() => handleSeeAll(groupKey)}
+                            className="text-primary text-[12px] md:text-sm hover:underline cursor-pointer btn-press font-bold bg-primary/10 px-3 py-1 md:py-1.5 rounded-full"
+                          >
+                            {t("সব দেখুন", "See All")}
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-2 md:gap-6">
+                        {displayItems.map((product) => {
+                          const activePrice = product.discountPrice !== undefined ? product.discountPrice : (product.price || 0);
+                          const hasDiscount = product.discountPrice !== undefined;
+                          const formattedPrice = language === "bn" ? activePrice.toLocaleString("bn-BD") : activePrice;
+                          const formattedOriginal = language === "bn" ? (product.price || 0).toLocaleString("bn-BD") : (product.price || 0);
+
+                          return (
+                            <div key={product.id} className="w-full bg-white/80 backdrop-blur-md rounded-xl p-2 md:p-4 shadow-sm border border-surface-variant hover-lift flex flex-col h-full relative group">
+                              {hasDiscount && (
+                                <div className="absolute top-1 left-1 bg-gradient-orange text-white px-1.5 py-0.5 rounded font-micro text-[9px] font-bold z-10">
+                                  {language === "bn" ? `${product.discountPercent?.toLocaleString("bn-BD")}% ছাড়` : `${product.discountPercent}% OFF`}
+                                </div>
+                              )}
+                              <Link href={`/product/${product.slug}`} className="aspect-square w-full rounded-lg overflow-hidden bg-white mb-2 relative block group/img">
+                                <img className="w-full !h-full object-cover transition-transform duration-700 group-hover/img:scale-110" src={product.image} alt={t(product.nameBn, product.nameEn)} />
+                              </Link>
+                              <h3 className="font-bold text-[11px] md:text-sm text-on-surface line-clamp-2 mb-1 group-hover:text-primary transition-colors leading-tight">
+                                <Link href={`/product/${product.slug}`}>{t(product.nameBn, product.nameEn)}</Link>
+                              </h3>
+                              <p className="font-label-sm text-[10px] text-muted mb-1 md:mb-2">{t(product.unitBn, product.unitEn)}</p>
+                              <div className="mt-auto flex items-center justify-between pt-1">
+                                <div className="flex flex-col">
+                                  <div className="text-[13px] md:text-base text-primary font-bold leading-none">৳{formattedPrice}</div>
+                                  {hasDiscount && <span className="text-[9px] md:text-xs text-outline-variant line-through mt-0.5">৳{formattedOriginal}</span>}
+                                </div>
+                                <button onClick={(e) => { e.preventDefault(); addToCart(product, 1); }} className="bg-gradient-to-br from-primary to-[#008C44] text-white w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center btn-press shadow-soft shrink-0">
+                                  <Plus className="text-[14px] md:text-[18px]" />
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </section>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        </div>
+      )}
       <Footer />
     </div>
   );
@@ -459,8 +459,9 @@ function ShopContent() {
 
 export default function ShopPage() {
   return (
-    <Suspense fallback={<div className="p-8 text-center text-primary font-bold">Loading shop catalog...</div>}>
+    <Suspense fallback={<div>Loading shop...</div>}>
       <ShopContent />
     </Suspense>
   );
 }
+
