@@ -163,7 +163,7 @@ export default function ProductDetailPage() {
           {/* Image side - Compact on mobile */}
           <div 
             onClick={() => setFullScreenImage(product.image)}
-            className="w-[65%] max-w-[260px] md:max-w-none md:w-full mx-auto aspect-square rounded-2xl md:rounded-3xl overflow-hidden bg-white border border-outline-variant/30 relative cursor-zoom-in group shadow-sm"
+            className="w-[85%] max-w-[320px] md:max-w-none md:w-full mx-auto aspect-square rounded-2xl md:rounded-3xl overflow-hidden bg-white border border-outline-variant/30 relative cursor-zoom-in group shadow-sm"
           >
             {hasDiscount && (
               <div className="absolute top-2 left-2 md:top-4 md:left-4 bg-gradient-orange text-white px-2 py-1 md:px-3 md:py-1.5 rounded-lg font-micro text-[11px] md:text-label-sm font-bold z-10 shadow-sm">
@@ -257,19 +257,19 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Add & Buy Actions (Moved up for mobile visibility) */}
-            <div className="flex flex-row gap-3 mb-6 md:mb-8">
+            <div className="flex flex-row gap-2 md:gap-3 mb-6 md:mb-8">
               <button
                 onClick={handleAddToCart}
-                className="flex-1 bg-surface border-2 border-primary text-primary font-bold py-3 md:py-4 px-2 md:px-6 rounded-xl md:rounded-full btn-press transition-colors hover:bg-primary/5 cursor-pointer flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-base"
+                className="flex-1 bg-surface border-2 border-primary text-primary font-bold py-2 md:py-4 px-2 md:px-6 rounded-xl md:rounded-full btn-press transition-colors hover:bg-primary/5 cursor-pointer flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 text-[11px] md:text-base"
               >
-                <ShoppingCart className="text-[18px] md:text-[20px]" />
+                <ShoppingCart className="text-[16px] md:text-[20px]" />
                 <span>{t("কার্টে যোগ", "Add to Cart")}</span>
               </button>
               <button
                 onClick={handleBuyNow}
-                className="flex-1 bg-gradient-green text-white font-bold py-3 md:py-4 px-2 md:px-6 rounded-xl md:rounded-full btn-press shadow-md hover:shadow-lg transition-transform cursor-pointer flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-base"
+                className="flex-1 bg-gradient-green text-white font-bold py-2 md:py-4 px-2 md:px-6 rounded-xl md:rounded-full btn-press shadow-md hover:shadow-lg transition-transform cursor-pointer flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 text-[11px] md:text-base"
               >
-                <ShoppingBasket className="text-[18px] md:text-[20px]" />
+                <ShoppingBasket className="text-[16px] md:text-[20px]" />
                 <span>{t("এখনই কিনুন", "Buy Now")}</span>
               </button>
             </div>
@@ -295,17 +295,17 @@ export default function ProductDetailPage() {
             <h2 className="font-headline-sm text-lg md:text-headline-lg font-bold text-on-background mb-4 md:mb-8">
               {t("সম্পর্কিত পণ্যসমূহ", "Related Products")}
             </h2>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-6">
               {similarProducts.map((p) => {
                 const pPrice = p.discountPrice !== undefined ? p.discountPrice : p.price;
                 const pFormattedPrice = language === "bn" ? pPrice.toLocaleString("bn-BD") : pPrice;
                 return (
                   <div
                     key={p.id}
-                    className="bg-surface-container-lowest rounded-2xl p-3 md:p-4 shadow-sm border border-surface-variant hover-lift flex flex-col h-full relative group"
+                    className="bg-surface-container-lowest rounded-xl md:rounded-2xl p-2 md:p-4 shadow-sm border border-surface-variant hover-lift flex flex-col h-full relative group"
                   >
                     {p.discountPercent && (
-                      <div className="absolute top-2 left-2 bg-gradient-orange text-white px-2 py-1 rounded-md font-micro text-[10px] font-bold z-10">
+                      <div className="absolute top-1 left-1 md:top-2 md:left-2 bg-gradient-orange text-white px-1.5 py-0.5 md:px-2 md:py-1 rounded-md font-micro text-[9px] md:text-[10px] font-bold z-10">
                         {language === "bn"
                           ? `${p.discountPercent.toLocaleString("bn-BD")}% ছাড়`
                           : `${p.discountPercent}% OFF`}
@@ -313,7 +313,7 @@ export default function ProductDetailPage() {
                     )}
                     <Link
                       href={`/product/${p.slug}`}
-                      className="aspect-square w-full rounded-xl overflow-hidden bg-white mb-3 relative block group/img"
+                      className="aspect-square w-full rounded-lg md:rounded-xl overflow-hidden bg-white mb-2 md:mb-3 relative block group/img"
                     >
                       <img
                         className="w-full !h-full object-cover card-zoom-image transition-transform duration-700 group-hover/img:scale-110"
@@ -322,15 +322,15 @@ export default function ProductDetailPage() {
                       />
                     </Link>
                     <Link href={`/product/${p.slug}`} className="flex-grow">
-                      <h3 className="font-bold text-sm md:text-base text-on-surface line-clamp-2 mb-1 hover:text-primary transition-colors">
+                      <h3 className="font-bold text-[11px] md:text-base text-on-surface line-clamp-2 mb-1 hover:text-primary transition-colors leading-tight">
                         {t(p.nameBn, p.nameEn)}
                       </h3>
-                      <p className="text-[11px] md:text-xs text-muted mb-2 font-medium">
+                      <p className="text-[10px] md:text-xs text-muted mb-1 md:mb-2 font-medium">
                         {t(p.unitBn, p.unitEn)}
                       </p>
                     </Link>
                     <div className="mt-auto flex items-center justify-between">
-                      <div className="font-bold text-sm md:text-lg text-primary">
+                      <div className="font-bold text-[13px] md:text-lg text-primary leading-none">
                         ৳{pFormattedPrice}
                       </div>
                       <button
@@ -338,9 +338,9 @@ export default function ProductDetailPage() {
                           e.preventDefault();
                           addToCart(p, 1);
                         }}
-                        className="bg-surface border border-primary text-primary hover:bg-primary hover:text-white transition-colors w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center btn-press shadow-soft"
+                        className="bg-surface border border-primary text-primary hover:bg-primary hover:text-white transition-colors w-6 h-6 md:w-9 md:h-9 rounded-full flex items-center justify-center btn-press shadow-soft shrink-0"
                       >
-                        <Plus className="text-[16px] md:text-[20px]" />
+                        <Plus className="text-[14px] md:text-[20px]" />
                       </button>
                     </div>
                   </div>
