@@ -70,9 +70,9 @@ export default function HomePage() {
   return (
     <div className="bg-background text-on-background font-body-md min-h-screen flex flex-col relative z-0 overflow-x-hidden">
       {/* Decorative Colorful Background Blobs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-pink-400/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 -z-10 animate-blob"></div>
-      <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-purple-400/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 -z-10 animate-blob animation-delay-2000"></div>
-      <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-amber-300/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 -z-10 animate-blob animation-delay-4000"></div>
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-pink-400/20 rounded-full blur-[60px] md:blur-[100px] opacity-40 md:opacity-70 -z-10 md:animate-blob will-change-transform"></div>
+      <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-purple-400/20 rounded-full blur-[60px] md:blur-[100px] opacity-40 md:opacity-70 -z-10 md:animate-blob animation-delay-2000 will-change-transform"></div>
+      <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-amber-300/20 rounded-full blur-[60px] md:blur-[100px] opacity-40 md:opacity-70 -z-10 md:animate-blob animation-delay-4000 will-change-transform"></div>
       {/* TopNavBar */}
       <Header />
 
@@ -126,7 +126,7 @@ export default function HomePage() {
             </div>
           ))}
           
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/80 via-purple-900/40 to-transparent mix-blend-overlay z-10 pointer-events-none"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/80 via-purple-900/40 to-transparent  z-10 pointer-events-none"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10 pointer-events-none"></div>
           
           {/* Carousel Indicators */}

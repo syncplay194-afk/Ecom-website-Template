@@ -156,7 +156,7 @@ export const Header: React.FC = () => {
       )}
 
       {/* Mobile Bottom Navigation (Dark background, white text, Home/Shop/Cart/Contact from left) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 w-full bg-white/95 backdrop-blur-3xl border-t border-gray-200/50 flex justify-around items-center pt-2 pb-[calc(env(safe-area-inset-bottom)+8px)] z-[99999] shadow-[0_-4px_25px_rgba(0,0,0,0.08)]" style={{ position: "fixed", bottom: 0, left: 0, right: 0, WebkitTransform: "translateZ(0)", transform: "translateZ(0)" }}>
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 w-full bg-white/95 backdrop-blur-md border-t border-gray-200/50 flex justify-around items-center pt-2 pb-[calc(env(safe-area-inset-bottom)+8px)] z-[99999] shadow-[0_-4px_25px_rgba(0,0,0,0.08)]" style={{ position: "fixed", bottom: 0, left: 0, right: 0, WebkitTransform: "translateZ(0)", transform: "translateZ(0)" }}>
         <Link
           href="/"
           className={`flex flex-col items-center justify-center flex-1 py-1 min-h-[44px] gap-1 text-[10px] font-semibold transition-all duration-150 active:scale-[0.92] select-none ${
