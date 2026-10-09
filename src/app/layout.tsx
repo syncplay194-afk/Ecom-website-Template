@@ -30,7 +30,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen flex flex-col antialiased overflow-x-hidden">
+      <body className="min-h-screen flex flex-col antialiased">
         <AppProvider>
           {children}
         </AppProvider>
