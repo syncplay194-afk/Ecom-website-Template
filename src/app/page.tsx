@@ -7,7 +7,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useApp } from "@/context/AppContext";
 import { insforge } from "@/lib/insforge";
-import { ArrowRight, Plus, Shield, Bike, Lock, Undo } from 'lucide-react';
+import { ArrowRight, Plus, ShieldCheck, Truck, Lock, RotateCcw, ShoppingCart } from 'lucide-react';
 
 export default function HomePage() {
   const { t, addToCart, language } = useApp();
@@ -107,21 +107,27 @@ export default function HomePage() {
       <main className="flex-grow w-full max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-section-gap flex flex-col gap-8 md:gap-12 pb-24 md:pb-12">
         {/* Hero Banner */}
         <motion.section 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="relative w-full h-[250px] sm:h-[350px] md:h-[500px] rounded-2xl overflow-hidden shadow-premium flex items-center bg-[#0f172a] hover-lift group">
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="relative w-full h-[250px] sm:h-[350px] md:h-[500px] rounded-2xl overflow-hidden shadow-premium flex items-center bg-[#0f172a] group">
+          
           {heroSlides.map((slide, index) => (
             <div
               key={index}
-              className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
-                index === currentHeroIndex ? "opacity-100" : "opacity-0"
+              className={`absolute inset-0 transition-opacity duration-1000 ${
+                index === currentHeroIndex ? "opacity-100 z-0" : "opacity-0 -z-10"
               }`}
-              style={{ backgroundImage: `url('${slide.image_url}')` }}
-            ></div>
+            >
+              <div 
+                className={`w-full h-full bg-cover bg-center bg-no-repeat transition-transform duration-[12000ms] ease-out ${index === currentHeroIndex ? 'scale-110' : 'scale-100'}`}
+                style={{ backgroundImage: `url('${slide.image_url}')` }}
+              ></div>
+            </div>
           ))}
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/80 via-purple-900/40 to-transparent mix-blend-overlay"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+          
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/80 via-purple-900/40 to-transparent mix-blend-overlay z-10 pointer-events-none"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10 pointer-events-none"></div>
           
           {/* Carousel Indicators */}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
@@ -138,22 +144,39 @@ export default function HomePage() {
           </div>
 
           {heroSlides[currentHeroIndex] && (
-            <div className="relative z-10 p-6 md:p-12 max-w-lg transition-opacity duration-500">
-              <h1 className="font-tiro text-3xl sm:text-4xl md:text-5xl text-white font-bold leading-tight mb-3 md:mb-4 drop-shadow-md">
+            <div className="relative z-20 p-6 md:p-12 max-w-lg">
+              <motion.h1 
+                key={`title-${currentHeroIndex}`}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.1 }}
+                className="font-tiro text-3xl sm:text-4xl md:text-5xl text-white font-bold leading-tight mb-3 md:mb-4 drop-shadow-md">
                 {t(heroSlides[currentHeroIndex].titleBn || "ফ্যাশন এখন ঘরে", heroSlides[currentHeroIndex].titleEn || "Fashion now at home")}
-              </h1>
-              <p className="font-body-md sm:font-body-lg text-surface-container-low mb-5 md:mb-6">
+              </motion.h1>
+              <motion.p 
+                key={`subtitle-${currentHeroIndex}`}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.2 }}
+                className="font-body-md sm:font-body-lg text-surface-container-low mb-5 md:mb-6">
                 {t(
                   heroSlides[currentHeroIndex].subtitleBn || "",
                   heroSlides[currentHeroIndex].subtitleEn || ""
                 )}
-              </p>
-              <Link
-                href="/shop"
-                className="bg-gradient-green text-white font-headline-sm text-headline-sm px-6 py-3 rounded-full btn-press shadow-md hover:shadow-lg inline-flex items-center gap-2"
+              </motion.p>
+              <motion.div
+                key={`btn-${currentHeroIndex}`}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.3 }}
               >
-                {t("অর্ডার করুন", "Order Now")} <ArrowRight className="text-[18px]" />
-              </Link>
+                <Link
+                  href="/shop"
+                  className="bg-gradient-green text-white font-headline-sm text-headline-sm px-6 py-3 rounded-full btn-press shadow-[0_4px_20px_rgba(0,166,81,0.4)] hover:shadow-[0_8px_30px_rgba(0,166,81,0.6)] inline-flex items-center gap-2 transition-all duration-300 border border-white/20"
+                >
+                  {t("অর্ডার করুন", "Order Now")} <ArrowRight className="text-[18px]" />
+                </Link>
+              </motion.div>
             </div>
           )}
         </motion.section>
@@ -203,13 +226,25 @@ export default function HomePage() {
                   {/* Image Container */}
                   <Link
                     href={`/product/${product.slug}`}
-                    className="aspect-square w-full rounded-xl overflow-hidden bg-white mb-3 relative block"
+                    className="aspect-square w-full rounded-xl overflow-hidden bg-white mb-3 relative block group/img"
                   >
                     <img
-                      className="w-full !h-full object-cover card-zoom-image"
+                      className="w-full !h-full object-cover card-zoom-image transition-transform duration-700 group-hover/img:scale-110"
                       src={product.image}
                       alt={t(product.nameBn, product.nameEn)}
                     />
+                    {/* Hover Add to Cart Reveal (Desktop) */}
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 hidden md:flex flex-col items-center justify-end pb-4 pointer-events-none">
+                      <button 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          addToCart(product, 1);
+                        }}
+                        className="pointer-events-auto bg-white/90 backdrop-blur-md text-primary font-bold px-5 py-2 rounded-full transform translate-y-8 group-hover/img:translate-y-0 transition-all duration-300 shadow-lg flex items-center gap-2 hover:bg-primary hover:text-white"
+                      >
+                        <ShoppingCart size={16} /> {t("কার্ট-এ যোগ করুন", "Add to Cart")}
+                      </button>
+                    </div>
                   </Link>
 
                   {/* Product Title */}
@@ -337,57 +372,41 @@ export default function HomePage() {
         </motion.section>
 
         {/* Trust Badges */}
-        <motion.section 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-4 mb-4"
-        >
-          <div className="bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-variant/40 p-6">
-            <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background text-center mb-6">
-              {t("কেন আমাদের বেছে নেবেন?", "Why Choose Us?")}
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="text-center">
-                <div className="trust-circle bg-green-50">
-                  <Shield className="text-primary text-2xl" />
+        <section className="mt-8 mb-4">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={{
+              visible: { transition: { staggerChildren: 0.1 } },
+              hidden: {}
+            }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-4"
+          >
+            {[
+              { icon: ShieldCheck, titleBn: "জেনুইন প্রোডাক্ট", titleEn: "Genuine Product", color: "text-blue-500", bg: "bg-blue-50" },
+              { icon: Truck, titleBn: "ফাস্ট ডেলিভারি", titleEn: "Fast Delivery", color: "text-emerald-500", bg: "bg-emerald-50" },
+              { icon: Lock, titleBn: "নিরাপদ পেমেন্ট", titleEn: "Secure Payment", color: "text-purple-500", bg: "bg-purple-50" },
+              { icon: RotateCcw, titleBn: "রিটার্ন পলিসি", titleEn: "Return Policy", color: "text-amber-500", bg: "bg-amber-50" }
+            ].map((badge, idx) => (
+              <motion.div 
+                key={idx}
+                variants={{
+                  hidden: { opacity: 0, y: 30, scale: 0.9 },
+                  visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 100, damping: 15 } }
+                }}
+                className="bg-white p-4 rounded-2xl border border-outline-variant/30 flex flex-col items-center justify-center text-center shadow-sm hover:shadow-md transition-shadow duration-300 group cursor-default"
+              >
+                <div className={`w-12 h-12 ${badge.bg} rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                  <badge.icon className={`text-[24px] ${badge.color} group-hover:animate-pulse`} />
                 </div>
-                <div className="text-sm font-bold text-gray-800 mt-2">
-                  {t("আসল পণ্য", "Genuine Product")}
-                </div>
-                <div className="text-gray-500 mt-1 text-xs">{t("১০০% নিশ্চিত", "100% Guaranteed")}</div>
-              </div>
-              <div className="text-center">
-                <div className="trust-circle bg-orange-50">
-                  <Bike className="text-orange-500 text-2xl" />
-                </div>
-                <div className="text-sm font-bold text-gray-800 mt-2">
-                  {t("দ্রুত ডেলিভারি", "Fast Delivery")}
-                </div>
-                <div className="text-gray-500 mt-1 text-xs">{t("৩০–৬০ মিনিট", "30–60 Minutes")}</div>
-              </div>
-              <div className="text-center">
-                <div className="trust-circle bg-blue-50">
-                  <Lock className="text-blue-500 text-2xl" />
-                </div>
-                <div className="text-sm font-bold text-gray-800 mt-2">
-                  {t("নিরাপদ পেমেন্ট", "Secure Payment")}
-                </div>
-                <div className="text-gray-500 mt-1 text-xs">{t("SSL সুরক্ষিত", "SSL Secured")}</div>
-              </div>
-              <div className="text-center">
-                <div className="trust-circle bg-red-50">
-                  <Undo className="text-red-400 text-2xl" />
-                </div>
-                <div className="text-sm font-bold text-gray-800 mt-2">
-                  {t("সহজ রিটার্ন", "Easy Return")}
-                </div>
-                <div className="text-gray-500 mt-1 text-xs">{t("৭ দিনের মধ্যে", "Within 7 Days")}</div>
-              </div>
-            </div>
-          </div>
-        </motion.section>
+                <h4 className="font-label-md text-label-md text-on-surface font-bold">
+                  {t(badge.titleBn, badge.titleEn)}
+                </h4>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
       </main>
 
       {/* Footer */}
