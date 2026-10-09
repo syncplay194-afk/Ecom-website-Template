@@ -159,8 +159,8 @@ export const Header: React.FC = () => {
       <nav className="md:hidden fixed bottom-0 left-0 right-0 w-full bg-white/95 backdrop-blur-3xl border-t border-gray-200/50 flex justify-around items-center pt-2 pb-[calc(env(safe-area-inset-bottom)+8px)] z-[99999] shadow-[0_-4px_25px_rgba(0,0,0,0.08)]" style={{ position: "fixed", bottom: 0, left: 0, right: 0, WebkitTransform: "translateZ(0)", transform: "translateZ(0)" }}>
         <Link
           href="/"
-          className={`flex flex-col items-center justify-center flex-1 py-1 min-h-[44px] gap-1 text-[10px] font-semibold transition-all duration-300 ${
-            isActive("/") ? "text-[#ff6600] scale-105" : "text-gray-500 hover:text-gray-700"
+          className={`flex flex-col items-center justify-center flex-1 py-1 min-h-[44px] gap-1 text-[10px] font-semibold transition-all duration-150 active:scale-[0.92] select-none ${
+            isActive("/") ? "text-[#ff6600]" : "text-gray-500 hover:text-gray-700"
           }`}
         >
           <Home size={22} className={isActive("/") ? "fill-current" : ""} />
@@ -169,8 +169,8 @@ export const Header: React.FC = () => {
 
         <Link
           href="/shop"
-          className={`flex flex-col items-center justify-center flex-1 py-1 min-h-[44px] gap-1 text-[10px] font-semibold transition-all duration-300 ${
-            isActive("/shop") ? "text-[#ff6600] scale-105" : "text-gray-500 hover:text-gray-700"
+          className={`flex flex-col items-center justify-center flex-1 py-1 min-h-[44px] gap-1 text-[10px] font-semibold transition-all duration-150 active:scale-[0.92] select-none ${
+            isActive("/shop") ? "text-[#ff6600]" : "text-gray-500 hover:text-gray-700"
           }`}
         >
           <Store size={22} className={isActive("/shop") ? "fill-current" : ""} />
@@ -179,8 +179,8 @@ export const Header: React.FC = () => {
 
         <Link
           href="/cart"
-          className={`relative flex flex-col items-center justify-center flex-1 py-1 min-h-[44px] gap-1 text-[10px] font-semibold transition-all duration-300 ${
-            isActive("/cart") ? "text-[#ff6600] scale-105" : "text-gray-500 hover:text-gray-700"
+          className={`relative flex flex-col items-center justify-center flex-1 py-1 min-h-[44px] gap-1 text-[10px] font-semibold transition-all duration-150 active:scale-[0.92] select-none ${
+            isActive("/cart") ? "text-[#ff6600]" : "text-gray-500 hover:text-gray-700"
           }`}
         >
           <ShoppingCart size={22} className={isActive("/cart") ? "fill-current" : ""} />
@@ -194,8 +194,8 @@ export const Header: React.FC = () => {
 
         <Link
           href="/contact"
-          className={`flex flex-col items-center justify-center flex-1 py-1 min-h-[44px] gap-1 text-[10px] font-semibold transition-all duration-300 ${
-            isActive("/contact") ? "text-[#ff6600] scale-105" : "text-gray-500 hover:text-gray-700"
+          className={`flex flex-col items-center justify-center flex-1 py-1 min-h-[44px] gap-1 text-[10px] font-semibold transition-all duration-150 active:scale-[0.92] select-none ${
+            isActive("/contact") ? "text-[#ff6600]" : "text-gray-500 hover:text-gray-700"
           }`}
         >
           <MessageCircle size={22} className={isActive("/contact") ? "fill-current" : ""} />
