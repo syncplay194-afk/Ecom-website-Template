@@ -68,16 +68,18 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="bg-background text-on-background font-body-md min-h-screen flex flex-col relative z-0 overflow-x-clip">
-      {/* Decorative Colorful Background Blobs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-pink-400/20 rounded-full blur-[60px] md:blur-[100px] opacity-40 md:opacity-70 -z-10 md:animate-blob will-change-transform"></div>
-      <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-purple-400/20 rounded-full blur-[60px] md:blur-[100px] opacity-40 md:opacity-70 -z-10 md:animate-blob animation-delay-2000 will-change-transform"></div>
-      <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-amber-300/20 rounded-full blur-[60px] md:blur-[100px] opacity-40 md:opacity-70 -z-10 md:animate-blob animation-delay-4000 will-change-transform"></div>
+    <div className="relative z-0 flex-1 flex flex-col">
+      {/* Decorative Colorful Background Blobs strictly contained */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-pink-400/20 rounded-full blur-[60px] md:blur-[100px] opacity-40 md:opacity-70 md:animate-blob will-change-transform"></div>
+        <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-purple-400/20 rounded-full blur-[60px] md:blur-[100px] opacity-40 md:opacity-70 md:animate-blob animation-delay-2000 will-change-transform"></div>
+        <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-amber-300/20 rounded-full blur-[60px] md:blur-[100px] opacity-40 md:opacity-70 md:animate-blob animation-delay-4000 will-change-transform"></div>
+      </div>
       {/* TopNavBar */}
       <Header />
 
       {/* Category Pills (Links to /shop with category parameters) */}
-      <div className="w-full bg-surface-container-lowest py-3 px-margin-mobile md:px-margin-desktop overflow-x-auto whitespace-nowrap shadow-sm border-b border-surface-variant/40 hide-scrollbar flex gap-3 snap-x snap-mandatory">
+      <div className="w-full bg-surface-container-lowest py-3 px-margin-mobile md:px-margin-desktop overflow-x-auto overflow-y-hidden whitespace-nowrap shadow-sm border-b border-surface-variant/40 hide-scrollbar flex gap-3 snap-x snap-mandatory">
         <Link
           href="/shop?cat=makeup"
           className="snap-center inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full font-label-md text-label-md btn-press shadow-[0_4px_14px_0_rgba(236,72,153,0.39)] hover-lift cursor-pointer border-0"
@@ -197,7 +199,7 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="flex overflow-x-auto gap-4 md:gap-6 pb-4 snap-x snap-mandatory hide-scrollbar">
+          <div className="flex overflow-x-auto overflow-y-hidden gap-4 md:gap-6 pt-2 pb-4 px-1 snap-x snap-mandatory hide-scrollbar">
             {featuredProducts.map((product) => {
               const activePrice = product.discountPrice !== undefined ? product.discountPrice : product.price;
               const hasDiscount = product.discountPrice !== undefined;
