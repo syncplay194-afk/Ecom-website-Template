@@ -121,18 +121,18 @@ export default function OrderConfirmationPage() {
           className="flex items-center gap-2 md:gap-3 shrink-0 select-none"
           href="/"
         >
-          <img src="/sss_logo.png" alt="SSS Shopping Cart Logo" className="w-[40px] h-[40px] md:w-[48px] md:h-[48px] object-contain shrink-0" />
+          <img src="/ecom_logo.jpg" alt="Ecom Shop Logo" className="w-[32px] h-[32px] md:w-[48px] md:h-[48px] object-contain shrink-0 rounded-full" />
           <span className="font-headline-sm text-[16px] md:text-[20px] font-bold text-[#003366] tracking-tight whitespace-nowrap font-tiro">
-            Smart supper Shop
+            Ecom Shop
           </span>
         </Link>
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-grow w-full max-w-[800px] mx-auto px-margin-mobile md:px-margin-desktop py-8 flex flex-col gap-8">
+      <main className="flex-grow w-full max-w-[800px] mx-auto px-margin-mobile md:px-margin-desktop py-6 md:py-8 flex flex-col gap-4 md:gap-8 pb-32 md:pb-8">
         
         {/* Success Banner */}
-        <section className="bg-surface-container-lowest rounded-2xl p-8 shadow-sm flex flex-col items-center text-center gap-4 border-t-4 border-primary">
+        <section className="bg-surface-container-lowest rounded-2xl p-6 md:p-8 shadow-sm flex flex-col items-center text-center gap-3 md:gap-4 border-t-4 border-primary">
           <div className="w-20 h-20 bg-primary-container rounded-full flex items-center justify-center mb-2">
             <CheckCircle className="text-primary text-4xl font-filled" />
           </div>
@@ -149,7 +149,7 @@ export default function OrderConfirmationPage() {
         </section>
 
         {/* Payment Instructions Card */}
-        <section className="bg-primary-container/10 rounded-2xl p-6 md:p-8 shadow-sm flex flex-col items-center text-center gap-4 border border-primary/20">
+        <section className="bg-primary-container/10 rounded-2xl p-4 md:p-8 shadow-sm flex flex-col items-center text-center gap-3 md:gap-4 border border-primary/20">
           <div className="w-16 h-16 bg-primary-container rounded-full flex items-center justify-center mb-2">
             <Banknote className="text-primary text-3xl" />
           </div>
@@ -163,7 +163,7 @@ export default function OrderConfirmationPage() {
                 "Please complete your payment via bKash, Nagad, or Rocket."
               )}
             </p>
-            <div className="bg-surface p-4 rounded-xl border border-outline-variant/30 text-left w-full mx-auto my-4 max-w-sm">
+            <div className="bg-surface p-3 md:p-4 rounded-xl border border-outline-variant/30 text-left w-full mx-auto my-2 md:my-4 max-w-sm text-sm md:text-base">
               <p className="flex justify-between border-b border-outline-variant/30 pb-2 mb-2">
                 <strong>{t("বিকাশ/নগদ (পার্সোনাল):", "bKash/Nagad (Personal):")}</strong>
                 <span className="font-mono text-primary font-bold">০১৬২৯ ০১১৪৪৬</span>
@@ -183,7 +183,7 @@ export default function OrderConfirmationPage() {
         </section>
 
         {/* Delivery Address Card */}
-        <section className="bg-surface-container-lowest rounded-2xl shadow-sm p-6 border border-surface-variant/30 flex flex-col gap-3">
+        <section className="bg-surface-container-lowest rounded-2xl shadow-sm p-4 md:p-6 border border-surface-variant/30 flex flex-col gap-2 md:gap-3">
           <h2 className="text-headline-sm font-headline-sm text-on-surface border-b border-outline-variant/30 pb-2 flex items-center gap-2 font-bold">
             <Truck className="text-primary" />
             {t("ডেলিভারি ঠিকানা", "Delivery Information")}
@@ -203,7 +203,7 @@ export default function OrderConfirmationPage() {
             </h2>
           </div>
 
-          <div className="p-6 flex flex-col gap-4">
+          <div className="p-4 md:p-6 flex flex-col gap-3 md:gap-4">
             {/* Itemized list of purchased items */}
             {order.items.map((item, index) => {
               const itemImage =
@@ -214,7 +214,7 @@ export default function OrderConfirmationPage() {
                 <div key={index} className="flex items-center gap-4 pb-4 border-b border-surface-container-highest last:border-0 last:pb-0">
                   <img
                     alt={t(item.nameBn, item.nameEn)}
-                    className="w-16 h-16 object-cover rounded-lg bg-surface-container shadow-sm"
+                    className="w-12 h-12 md:w-16 md:h-16 object-cover rounded-lg bg-surface-container shadow-sm"
                     src={itemImage}
                   />
                   <div className="flex-grow">
@@ -261,16 +261,27 @@ export default function OrderConfirmationPage() {
           </div>
         </section>
 
-        {/* Actions Button */}
-        <div className="flex justify-center pb-12">
+        {/* Desktop Actions Button */}
+        <div className="hidden md:flex justify-center pb-12">
           <button
             onClick={handleContinueShopping}
-            className="bg-gradient-green text-on-primary rounded-full px-8 py-4 flex items-center justify-center gap-2 w-full md:w-auto shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-95 transition-all duration-200 cursor-pointer font-bold"
+            className="bg-gradient-green text-on-primary rounded-full px-8 py-4 flex items-center justify-center gap-2 w-auto shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-95 transition-all duration-200 cursor-pointer font-bold"
           >
             <span className="text-headline-sm font-headline-sm">
-              {t("কেনাকাটা চালিয়ে যান", "Continue Shopping")}
+              {t("আবার কেনাকাটা করুন", "Continue Shopping")}
             </span>
             <ArrowRight className="text-sm" />
+          </button>
+        </div>
+
+        {/* Sticky Mobile Actions Bar */}
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant/30 p-4 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] z-[90] pb-[calc(env(safe-area-inset-bottom)+16px)]">
+          <button
+            onClick={handleContinueShopping}
+            className="w-full text-white bg-gradient-green rounded-xl py-3.5 px-4 font-bold text-sm shadow-md hover:shadow-lg transition-transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+          >
+            {t("আবার কেনাকাটা করুন", "Continue Shopping")}
+            <ArrowRight className="text-[18px]" />
           </button>
         </div>
       </main>
