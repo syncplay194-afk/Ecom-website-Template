@@ -68,7 +68,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="bg-background text-on-background font-body-md min-h-screen flex flex-col relative z-0">
+    <div className="bg-background text-on-background font-body-md min-h-screen flex flex-col relative z-0 overflow-x-hidden">
       {/* Decorative Colorful Background Blobs */}
       <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-pink-400/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 -z-10 animate-blob"></div>
       <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-purple-400/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 -z-10 animate-blob animation-delay-2000"></div>
