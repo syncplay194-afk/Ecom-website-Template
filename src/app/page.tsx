@@ -206,95 +206,73 @@ export default function HomePage() {
         <div className="w-full overflow-hidden">
           <div className="flex overflow-x-auto overflow-y-hidden gap-4 md:gap-6 pt-2 px-1 snap-x snap-mandatory hide-scrollbar overscroll-x-contain pb-8 -mb-4">
             {featuredProducts.map((product) => {
-              const activePrice = product.discountPrice !== undefined ? product.discountPrice : product.price;
-              const hasDiscount = product.discountPrice !== undefined;
-              const formattedPrice = language === "bn" ? activePrice.toLocaleString("bn-BD") : activePrice;
+                  const activePrice = product.discountPrice !== undefined ? product.discountPrice : product.price;
+                  const hasDiscount = product.discountPrice !== undefined;
+                  const formattedPrice = language === "bn" ? activePrice.toLocaleString("bn-BD") : activePrice;
+                  const formattedOriginal = language === "bn" ? product.price.toLocaleString("bn-BD") : product.price;
 
-              return (
-                <div
-                  key={product.id}
-                  className="w-[160px] md:w-[220px] shrink-0 snap-start bg-white/80 backdrop-blur-md rounded-2xl p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/40 hover:border-pink-300/50 hover:shadow-[0_8px_30px_rgba(236,72,153,0.15)] transition-all duration-300 hover-lift flex flex-col h-full relative group"
-                >
-                  {/* Discount Badge */}
-                  {hasDiscount && (
-                    <div className="absolute top-3 left-3 bg-gradient-orange text-white px-2 py-1 rounded font-micro text-micro font-bold z-10">
-                      {language === "bn"
-                        ? `${product.discountPercent?.toLocaleString("bn-BD")}% ছাড়`
-                        : `${product.discountPercent}% OFF`}
-                    </div>
-                  )}
-                  {/* New Badge */}
-                  {product.isNew && !hasDiscount && (
-                    <div className="absolute top-3 left-3 bg-gradient-green text-white px-2 py-1 rounded font-micro text-micro font-bold z-10">
-                      {t("নতুন", "New")}
-                    </div>
-                  )}
-
-                  {/* Image Container */}
-                  <Link
-                    href={`/product/${product.slug}`}
-                    className="aspect-square w-full rounded-xl overflow-hidden bg-white mb-3 relative block group/img"
-                  >
-                    <img
-                      className="w-full !h-full object-cover card-zoom-image transition-transform duration-700 group-hover/img:scale-110"
-                      src={product.image}
-                      alt={t(product.nameBn, product.nameEn)}
-                    />
-                    {/* Hover Add to Cart Reveal (Desktop) */}
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 hidden md:flex flex-col items-center justify-end pb-4 pointer-events-none">
-                      <button 
-                        onClick={(e) => {
-                          e.preventDefault();
-                          addToCart(product, 1);
-                        }}
-                        className="pointer-events-auto bg-white/90 backdrop-blur-md text-primary font-bold px-5 py-2 rounded-full transform translate-y-8 group-hover/img:translate-y-0 transition-all duration-300 shadow-lg flex items-center gap-2 hover:bg-primary hover:text-white"
-                      >
-                        <ShoppingCart size={16} /> {t("কার্ট-এ যোগ করুন", "Add to Cart")}
-                      </button>
-                    </div>
-                  </Link>
-
-                  {/* Product Title */}
-                  <h3 className="font-headline-sm text-headline-sm text-on-surface mb-1 line-clamp-2">
-                    <Link href={`/product/${product.slug}`} className="hover:text-primary transition-colors">
-                      {t(product.nameBn, product.nameEn)}
-                    </Link>
-                  </h3>
-
-                  {/* Product Unit */}
-                  <p className="font-label-sm text-label-sm text-muted mb-2">
-                    {t(product.unitBn, product.unitEn)}
-                  </p>
-
-                  {/* Price & Add to Cart */}
-                  <div className="mt-auto flex items-center justify-between">
-                    <div className="flex flex-col">
-                      <div className="font-headline-md text-headline-md text-primary font-bold">
-                        ৳{formattedPrice}
-                      </div>
-                      {hasDiscount && (
-                        <span className="text-xs text-outline-variant line-through mt-0.5">
-                          ৳{language === "bn" ? product.price.toLocaleString("bn-BD") : product.price}
-                        </span>
-                      )}
-                    </div>
-                    <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          addToCart(product, 1);
-                        }}
-                        className="bg-gradient-to-br from-primary to-[#008C44] text-white w-8 h-8 rounded-full flex items-center justify-center btn-press shadow-soft hover-lift"
-                        title={t("কার্টে যোগ করুন", "Add to Cart")}
+                  return (
+                    <div
+                      key={product.id}
+                      className="w-full bg-white/80 backdrop-blur-md rounded-xl md:rounded-2xl p-2 md:p-4 shadow-[0_4px_20px_rgb(0,0,0,0.04)] border border-white/40 hover:border-pink-300/50 hover:shadow-[0_8px_30px_rgba(236,72,153,0.15)] transition-all duration-300 hover-lift flex flex-col h-full relative group"
                     >
-                      <Plus className="text-[18px]" />
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          </div>
-        </motion.section>
+                      {hasDiscount && (
+                        <div className="absolute top-1 left-1 md:top-2 md:left-2 bg-gradient-orange text-white px-1.5 py-0.5 md:px-2 md:py-1 rounded font-micro text-[9px] md:text-label-sm font-bold z-10 shadow-sm">
+                          {language === "bn"
+                            ? `${product.discountPercent?.toLocaleString("bn-BD")}% ছাড়`
+                            : `${product.discountPercent}% OFF`}
+                        </div>
+                      )}
+
+                      <Link
+                        href={`/product/${product.slug}`}
+                        className="aspect-square w-full rounded-lg md:rounded-xl overflow-hidden bg-white mb-2 md:mb-3 relative block group/img"
+                      >
+                        <img
+                          className="w-full !h-full object-cover card-zoom-image transition-transform duration-700 group-hover/img:scale-110"
+                          src={product.image}
+                          alt={t(product.nameBn, product.nameEn)}
+                        />
+                      </Link>
+
+                      <h3 className="font-bold text-[11px] md:text-label-lg text-on-surface line-clamp-2 mb-1 group-hover:text-primary transition-colors leading-tight">
+                        <Link href={`/product/${product.slug}`}>
+                          {t(product.nameBn, product.nameEn)}
+                        </Link>
+                      </h3>
+
+                      <p className="font-label-sm text-[10px] md:text-label-sm text-muted mb-1 md:mb-2">
+                        {t(product.unitBn, product.unitEn)}
+                      </p>
+
+                      <div className="mt-auto flex items-center justify-between">
+                        <div className="flex flex-col">
+                          <div className="font-headline-md text-[13px] md:text-headline-md text-primary font-bold leading-none">
+                            ৳{formattedPrice}
+                          </div>
+                          {hasDiscount && (
+                            <span className="text-[9px] md:text-xs text-outline-variant line-through mt-0.5">
+                              ৳{formattedOriginal}
+                            </span>
+                          )}
+                        </div>
+                        <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              addToCart(product, 1);
+                            }}
+                            className="bg-gradient-to-br from-primary to-[#008C44] text-white w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center btn-press shadow-soft hover-lift shrink-0"
+                            title={t("কার্টে যোগ করুন", "Add to Cart")}
+                        >
+                          <Plus className="text-[14px] md:text-[18px]" />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </motion.section>
 
         {/* Shop by Category */}
         <motion.section 
