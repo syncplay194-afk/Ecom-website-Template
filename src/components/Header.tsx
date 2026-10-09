@@ -2,15 +2,17 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useApp } from "@/context/AppContext";
-import { Menu, Search, ShoppingCart, X, Home, Store, Info, MessageCircle } from 'lucide-react';
+import { Menu, Search, ShoppingCart, X, Home, Store, Info, MessageCircle, ChevronDown } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const { language, setLanguage, t, cartCount } = useApp();
   const pathname = usePathname();
   const [showSearch, setShowSearch] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isShopExpanded, setIsShopExpanded] = useState(false);
+  const router = useRouter();
 
   const isActive = (path: string) => {
     if (path === "/" && pathname === "/") return true;
@@ -52,16 +54,28 @@ export const Header: React.FC = () => {
           >
             {t("হোম", "Home")}
           </Link>
-          <Link
-            href="/shop"
-            className={`logo-nav-link ${
-              isActive("/shop")
-                ? "logo-nav-link-active font-bold border-b-2 pb-1"
-                : "text-on-surface-variant"
-            } font-label-md text-label-md`}
-          >
-            {t("শপ", "Shop")}
-          </Link>
+          <div className="relative group py-4">
+            <Link
+              href="/shop"
+              className={`logo-nav-link ${
+                isActive("/shop")
+                  ? "logo-nav-link-active font-bold border-b-2 pb-1"
+                  : "text-on-surface-variant"
+              } font-label-md text-label-md flex items-center gap-1`}
+            >
+              {t("শপ", "Shop")}
+              <ChevronDown className="w-4 h-4 text-muted group-hover:text-primary transition-transform group-hover:rotate-180" />
+            </Link>
+            
+            {/* Desktop Dropdown Menu */}
+            <div className="absolute left-1/2 -translate-x-1/2 top-full mt-[-8px] w-48 bg-white border border-gray-100 shadow-xl rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col z-[100] overflow-hidden">
+               <Link href="/shop" className="px-4 py-3 hover:bg-primary/5 hover:text-primary transition-colors text-sm font-bold border-b border-gray-50">{t("সব পণ্য", "All Products")}</Link>
+               <Link href="/shop?cat=makeup" className="px-4 py-3 hover:bg-primary/5 hover:text-primary transition-colors text-sm font-medium border-b border-gray-50">{t("মেকআপ", "Makeup")}</Link>
+               <Link href="/shop?cat=juwelary" className="px-4 py-3 hover:bg-primary/5 hover:text-primary transition-colors text-sm font-medium border-b border-gray-50">{t("গহনা", "Juwelary")}</Link>
+               <Link href="/shop?cat=cosmetics" className="px-4 py-3 hover:bg-primary/5 hover:text-primary transition-colors text-sm font-medium border-b border-gray-50">{t("কসমেটিকস", "Cosmetics")}</Link>
+               <Link href="/shop?cat=bag" className="px-4 py-3 hover:bg-primary/5 hover:text-primary transition-colors text-sm font-medium">{t("ব্যাগ", "Bag")}</Link>
+            </div>
+          </div>
           <Link
             href="/about"
             className="logo-nav-link text-on-surface-variant font-label-md text-label-md"
@@ -138,10 +152,29 @@ export const Header: React.FC = () => {
                 <Home className="text-primary text-[20px]" />
                 {t("হোম", "Home")}
               </Link>
-              <Link href="/shop" className="text-on-surface font-bold text-[15px] flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
-                <Store className="text-primary text-[20px]" />
-                {t("শপ", "Shop")}
-              </Link>
+              <div className="flex flex-col">
+                <div 
+                  className="flex items-center justify-between text-on-surface font-bold text-[15px] cursor-pointer" 
+                  onClick={() => setIsShopExpanded(!isShopExpanded)}
+                >
+                  <div className="flex items-center gap-3" onClick={(e) => { e.stopPropagation(); setIsMenuOpen(false); router.push('/shop'); }}>
+                    <Store className="text-primary text-[20px]" />
+                    {t("শপ", "Shop")}
+                  </div>
+                  <ChevronDown className={`transition-transform duration-300 w-5 h-5 ${isShopExpanded ? 'rotate-180 text-primary' : 'text-muted'}`} />
+                </div>
+                
+                {/* Expanded Categories */}
+                <div className={`overflow-hidden transition-all duration-300 ${isShopExpanded ? 'max-h-64 opacity-100 mt-3' : 'max-h-0 opacity-0'}`}>
+                  <div className="flex flex-col ml-8 gap-4 border-l-2 border-primary/20 pl-4 py-1">
+                     <Link href="/shop" className="text-on-surface-variant font-medium text-[14px] hover:text-primary" onClick={() => setIsMenuOpen(false)}>{t("সব পণ্য", "All Products")}</Link>
+                     <Link href="/shop?cat=makeup" className="text-on-surface-variant font-medium text-[14px] hover:text-primary" onClick={() => setIsMenuOpen(false)}>{t("মেকআপ", "Makeup")}</Link>
+                     <Link href="/shop?cat=juwelary" className="text-on-surface-variant font-medium text-[14px] hover:text-primary" onClick={() => setIsMenuOpen(false)}>{t("গহনা", "Juwelary")}</Link>
+                     <Link href="/shop?cat=cosmetics" className="text-on-surface-variant font-medium text-[14px] hover:text-primary" onClick={() => setIsMenuOpen(false)}>{t("কসমেটিকস", "Cosmetics")}</Link>
+                     <Link href="/shop?cat=bag" className="text-on-surface-variant font-medium text-[14px] hover:text-primary" onClick={() => setIsMenuOpen(false)}>{t("ব্যাগ", "Bag")}</Link>
+                  </div>
+                </div>
+              </div>
               <Link href="/about" className="text-on-surface font-bold text-[15px] flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
                 <Info className="text-primary text-[20px]" />
                 {t("আমাদের সম্পর্কে", "About Us")}
