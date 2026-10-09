@@ -79,7 +79,7 @@ export default function HomePage() {
       <Header />
 
       {/* Category Pills (Links to /shop with category parameters) */}
-      <div className="w-full bg-surface-container-lowest py-3 px-margin-mobile md:px-margin-desktop overflow-x-auto overflow-y-hidden whitespace-nowrap shadow-sm border-b border-surface-variant/40 hide-scrollbar flex gap-3 snap-x snap-mandatory">
+      <div className="w-full bg-surface-container-lowest py-3 px-margin-mobile md:px-margin-desktop overflow-x-auto overflow-y-hidden whitespace-nowrap shadow-sm border-b border-surface-variant/40 hide-scrollbar [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] flex gap-3 snap-x snap-mandatory">
         <Link
           href="/shop?cat=makeup"
           className="snap-center inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full font-label-md text-label-md btn-press shadow-[0_4px_14px_0_rgba(236,72,153,0.39)] hover-lift cursor-pointer border-0"
@@ -199,7 +199,7 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="flex overflow-x-auto overflow-y-hidden gap-4 md:gap-6 pt-2 pb-4 px-1 snap-x snap-mandatory hide-scrollbar">
+          <div className="flex overflow-x-auto overflow-y-hidden gap-4 md:gap-6 pt-2 pb-4 px-1 snap-x snap-mandatory hide-scrollbar [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {featuredProducts.map((product) => {
               const activePrice = product.discountPrice !== undefined ? product.discountPrice : product.price;
               const hasDiscount = product.discountPrice !== undefined;
