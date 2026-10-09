@@ -79,7 +79,7 @@ export default function HomePage() {
       <Header />
 
       {/* Category Pills (Links to /shop with category parameters) */}
-      <div className="w-full bg-surface-container-lowest py-3 px-margin-mobile md:px-margin-desktop overflow-x-auto overflow-y-hidden whitespace-nowrap shadow-sm border-b border-surface-variant/40 hide-scrollbar [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] flex gap-3 snap-x snap-mandatory">
+      <div className="w-full bg-surface-container-lowest py-4 px-margin-mobile md:px-margin-desktop shadow-sm border-b border-surface-variant/40 flex flex-wrap justify-center gap-2 md:gap-3">
         <Link
           href="/shop?cat=makeup"
           className="snap-center inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full font-label-md text-label-md btn-press shadow-[0_4px_14px_0_rgba(236,72,153,0.39)] hover-lift cursor-pointer border-0"
@@ -199,7 +199,7 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="flex overflow-x-auto overflow-y-hidden gap-4 md:gap-6 pt-2 pb-4 px-1 snap-x snap-mandatory hide-scrollbar [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 pt-2 pb-4 px-1">
             {featuredProducts.map((product) => {
               const activePrice = product.discountPrice !== undefined ? product.discountPrice : product.price;
               const hasDiscount = product.discountPrice !== undefined;
@@ -208,7 +208,7 @@ export default function HomePage() {
               return (
                 <div
                   key={product.id}
-                  className="w-[160px] md:w-[220px] shrink-0 snap-start bg-white/80 backdrop-blur-md rounded-2xl p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/40 hover:border-pink-300/50 hover:shadow-[0_8px_30px_rgba(236,72,153,0.15)] transition-all duration-300 hover-lift flex flex-col h-full relative group"
+                  className="w-full bg-white/80 backdrop-blur-md rounded-2xl p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/40 hover:border-pink-300/50 hover:shadow-[0_8px_30px_rgba(236,72,153,0.15)] transition-all duration-300 hover-lift flex flex-col h-full relative group"
                 >
                   {/* Discount Badge */}
                   {hasDiscount && (
