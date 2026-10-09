@@ -169,9 +169,9 @@ export default function CheckoutPage() {
       <header className="w-full bg-surface-container-lowest shadow-sm py-4 px-margin-mobile md:px-margin-desktop sticky top-0 z-50">
         <div className="max-w-[1280px] mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 md:gap-3 shrink-0 select-none">
-            <img src="/sss_logo.png" alt="SSS Shopping Cart Logo" className="w-[40px] h-[40px] md:w-[48px] md:h-[48px] object-contain shrink-0" />
+            <img src="/ecom_logo.jpg" alt="Ecom Shop Logo" className="w-[32px] h-[32px] md:w-[48px] md:h-[48px] object-contain shrink-0 rounded-full" />
             <span className="font-headline-sm text-[16px] md:text-[20px] font-bold text-[#003366] tracking-tight whitespace-nowrap font-tiro">
-              Smart supper Shop
+              Ecom Shop
             </span>
           </Link>
           <Link href="/cart" className="text-sm font-semibold text-primary hover:underline flex items-center gap-1">
@@ -182,7 +182,7 @@ export default function CheckoutPage() {
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-grow w-full max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-6 md:py-10">
+      <main className="flex-grow w-full max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-4 md:py-10 pb-36 md:pb-10">
         {/* Step Indicator */}
         <div className="mb-10 max-w-2xl mx-auto px-4">
           <div className="flex items-center justify-between relative">
@@ -245,7 +245,7 @@ export default function CheckoutPage() {
                       setPhone(e.target.value);
                       if (errors.phone) setErrors((prev) => ({ ...prev, phone: "" }));
                     }}
-                    className={`w-full bg-surface rounded-full border px-5 py-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors ${
+                    className={`w-full bg-surface rounded-full border px-4 py-2.5 md:px-5 md:py-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors ${
                       errors.phone ? "border-error" : "border-outline-variant/60"
                     }`}
                     placeholder="01XXX-XXXXXX"
@@ -265,7 +265,7 @@ export default function CheckoutPage() {
                       setName(e.target.value);
                       if (errors.name) setErrors((prev) => ({ ...prev, name: "" }));
                     }}
-                    className={`w-full bg-surface rounded-full border px-5 py-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors ${
+                    className={`w-full bg-surface rounded-full border px-4 py-2.5 md:px-5 md:py-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors ${
                       errors.name ? "border-error" : "border-outline-variant/60"
                     }`}
                     placeholder={t("আপনার সম্পূর্ণ নাম", "Your full name")}
@@ -304,7 +304,7 @@ export default function CheckoutPage() {
                       setVillage(e.target.value);
                       if (errors.village) setErrors((prev) => ({ ...prev, village: "" }));
                     }}
-                    className={`w-full bg-surface rounded-full border px-5 py-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors ${
+                    className={`w-full bg-surface rounded-full border px-4 py-2.5 md:px-5 md:py-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors ${
                       errors.village ? "border-error" : "border-outline-variant/60"
                     }`}
                     placeholder={t("গ্রাম বা এলাকার নাম", "Village or Area name")}
@@ -324,7 +324,7 @@ export default function CheckoutPage() {
                       setThana(e.target.value);
                       if (errors.thana) setErrors((prev) => ({ ...prev, thana: "" }));
                     }}
-                    className={`w-full bg-surface rounded-full border px-5 py-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors ${
+                    className={`w-full bg-surface rounded-full border px-4 py-2.5 md:px-5 md:py-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors ${
                       errors.thana ? "border-error" : "border-outline-variant/60"
                     }`}
                     placeholder={t("উপজেলার নাম", "Thana or Upazila name")}
@@ -344,7 +344,7 @@ export default function CheckoutPage() {
                       setDistrict(e.target.value);
                       if (errors.district) setErrors((prev) => ({ ...prev, district: "" }));
                     }}
-                    className={`w-full bg-surface rounded-full border px-5 py-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors ${
+                    className={`w-full bg-surface rounded-full border px-4 py-2.5 md:px-5 md:py-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors ${
                       errors.district ? "border-error" : "border-outline-variant/60"
                     }`}
                     placeholder={t("জেলার নাম", "District name")}
@@ -357,7 +357,7 @@ export default function CheckoutPage() {
             </section>
 
             {/* Payment Method COD */}
-            <section className="bg-primary-container/10 rounded-2xl p-6 shadow-sm border border-primary/20 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <section className="bg-primary-container/10 rounded-2xl p-4 md:p-6 shadow-sm border border-primary/20 flex flex-col sm:flex-row items-start sm:items-center gap-3 md:gap-4 mt-2 md:mt-0">
               <div className="w-12 h-12 rounded-full bg-gradient-green text-white flex items-center justify-center shrink-0 shadow-sm">
                 <Banknote />
               </div>
@@ -423,7 +423,7 @@ export default function CheckoutPage() {
               <button
                 disabled={isSubmitting}
                 onClick={handlePlaceOrder}
-                className="w-full bg-gradient-green text-on-primary font-label-md text-label-md py-4 rounded-full shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-[2px] active:scale-95 flex justify-center items-center gap-2 cursor-pointer font-bold text-[15px] disabled:opacity-50"
+                className="hidden md:flex w-full bg-gradient-green text-on-primary font-label-md text-label-md py-4 rounded-full shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-[2px] active:scale-95 justify-center items-center gap-2 cursor-pointer font-bold text-[15px] disabled:opacity-50"
               >
                 <CheckCircle />
                 {isSubmitting ? t("অপেক্ষা করুন...", "Please wait...") : t("অর্ডার প্লেস করুন", "Place Order")}
@@ -437,6 +437,29 @@ export default function CheckoutPage() {
           </div>
         </div>
       </main>
+
+        {/* Sticky Mobile Place Order Bar */}
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant/30 p-4 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] z-[90] pb-[calc(env(safe-area-inset-bottom)+16px)]">
+          <div className="flex justify-between items-center mb-3">
+            <span className="font-bold text-sm text-on-surface">{t("সর্বমোট", "Total")}</span>
+            <span className="font-bold text-primary text-xl">৳{f(grandTotal)}</span>
+          </div>
+          <button
+            disabled={isSubmitting}
+            onClick={handlePlaceOrder}
+            className="w-full text-white bg-gradient-green rounded-xl py-3.5 px-4 font-bold text-sm shadow-md hover:shadow-lg transition-transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+          >
+            {isSubmitting ? (
+              <>{t("অপেক্ষা করুন...", "Please wait...")}</>
+            ) : (
+              <>
+                <CheckCircle className="text-[18px]" />
+                {t("অর্ডার কনফার্ম করুন", "Place Order")}
+              </>
+            )}
+          </button>
+        </div>
+
     </div>
   );
 }
